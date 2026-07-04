@@ -173,90 +173,85 @@
 {{-- ===== RECENT TICKETS TABLE ===== --}}
 <div class="row g-4">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center py-3 px-4"
-                 style="background: linear-gradient(195deg, #42424a, #191919); border-radius: 12px 12px 0 0;">
-                <div class="d-flex align-items-center gap-2">
-                    <span class="material-icons-round text-white" style="font-size:1.1rem;">receipt_long</span>
-                    <h6 class="text-white mb-0 fw-bold">Recent Tickets</h6>
-                </div>
+        <x-app-card title="Recent Tickets" icon="receipt_long" :noPad="true">
+
+            <x-slot:actions>
                 <a href="{{ route('tickets.index') }}" class="btn btn-sm btn-light">
                     <span class="material-icons-round" style="font-size:0.875rem; vertical-align:middle;">open_in_new</span>
                     Lihat Semua
                 </a>
+            </x-slot:actions>
+
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Ticket No.</th>
+                            <th>Judul</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($recentTickets as $ticket)
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="fw-semibold" style="font-size:0.8rem;">
+                                        {{ $ticket->ticket_number }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold" style="font-size:0.82rem;">
+                                        {{ Str::limit($ticket->title, 38) }}
+                                    </div>
+                                    <div class="text-muted" style="font-size:0.72rem;">
+                                        {{ Str::limit($ticket->description, 48) }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <x-ticket-priority :value="$ticket->priority" />
+                                </td>
+                                <td>
+                                    <x-ticket-status :value="$ticket->status" />
+                                </td>
+                                <td>
+                                    <span style="font-size:0.78rem; color:#7b809a;">
+                                        {{ $ticket->created_at->format('d M Y') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <a href="{{ route('tickets.show', $ticket->id) }}"
+                                           class="btn btn-link btn-sm text-info px-2 mb-0"
+                                           title="View">
+                                            <span class="material-icons-round" style="font-size:1.1rem;">visibility</span>
+                                        </a>
+                                        @can('update', $ticket)
+                                            <a href="{{ route('tickets.edit', $ticket->id) }}"
+                                               class="btn btn-link btn-sm text-warning px-2 mb-0"
+                                               title="Edit">
+                                                <span class="material-icons-round" style="font-size:1.1rem;">edit</span>
+                                            </a>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-5">
+                                    <span class="material-icons-round d-block mb-2"
+                                          style="font-size:2.5rem; opacity:0.2;">inbox</span>
+                                    Belum ada tiket. <a href="{{ route('tickets.create') }}">Buat tiket pertama</a>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
 
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th class="ps-4">Ticket No.</th>
-                                <th>Judul</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($recentTickets as $ticket)
-                                <tr>
-                                    <td class="ps-4">
-                                        <span class="fw-semibold" style="font-size:0.8rem;">
-                                            {{ $ticket->ticket_number }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold" style="font-size:0.82rem;">
-                                            {{ Str::limit($ticket->title, 38) }}
-                                        </div>
-                                        <div class="text-muted" style="font-size:0.72rem;">
-                                            {{ Str::limit($ticket->description, 48) }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <x-ticket-priority :value="$ticket->priority" />
-                                    </td>
-                                    <td>
-                                        <x-ticket-status :value="$ticket->status" />
-                                    </td>
-                                    <td>
-                                        <span style="font-size:0.78rem; color:#7b809a;">
-                                            {{ $ticket->created_at->format('d M Y') }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-1">
-                                            <a href="{{ route('tickets.show', $ticket->id) }}"
-                                               class="btn btn-link btn-sm text-info px-2 mb-0"
-                                               title="View">
-                                                <span class="material-icons-round" style="font-size:1.1rem;">visibility</span>
-                                            </a>
-                                            @can('update', $ticket)
-                                                <a href="{{ route('tickets.edit', $ticket->id) }}"
-                                                   class="btn btn-link btn-sm text-warning px-2 mb-0"
-                                                   title="Edit">
-                                                    <span class="material-icons-round" style="font-size:1.1rem;">edit</span>
-                                                </a>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted py-5">
-                                        <span class="material-icons-round d-block mb-2"
-                                              style="font-size:2.5rem; opacity:0.2;">inbox</span>
-                                        Belum ada tiket. <a href="{{ route('tickets.create') }}">Buat tiket pertama</a>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        </x-app-card>
     </div>
 </div>
 

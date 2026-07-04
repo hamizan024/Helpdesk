@@ -362,6 +362,16 @@ body {
 }
 .page-item.disabled .page-link { color: #adb5bd; }
 
+/* ===== DETAIL FIELD ===== */
+.detail-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    color: #7b809a;
+    margin-bottom: 0.25rem;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 991.98px) {
     .sidenav { transform: translateX(-100%); }
