@@ -11,8 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+/**
+ * Manages the authenticated user's profile: viewing, updating, and account deletion.
+ */
 class ProfileController extends Controller
 {
+    /**
+     * Show the profile edit form.
+     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -20,6 +26,11 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * Update the authenticated user's profile information.
+     *
+     * Clears the email verification timestamp when the email address changes.
+     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
@@ -33,6 +44,9 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    /**
+     * Delete the authenticated user's account after password confirmation.
+     */
     public function destroy(DeleteProfileRequest $request): RedirectResponse
     {
         $user = $request->user();

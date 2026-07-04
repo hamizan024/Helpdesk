@@ -4,6 +4,9 @@ namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Validates the request payload for posting a comment on a ticket.
+ */
 class StoreCommentRequest extends FormRequest
 {
     public function authorize(): bool

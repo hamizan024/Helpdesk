@@ -3,7 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Represents an IT support ticket.
+ *
+ * @property int      $id
+ * @property string   $ticket_number
+ * @property string   $title
+ * @property string   $description
+ * @property string   $priority
+ * @property string   $status
+ * @property int      $user_id
+ * @property int|null $assigned_to
+ */
 class Ticket extends Model
 {
     protected $fillable = [
@@ -16,25 +30,22 @@ class Ticket extends Model
         'assigned_to',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function technician()
+    public function technician(): BelongsTo
     {
-        return $this->belongsTo(
-            User::class,
-            'assigned_to'
-        );
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function activities()
+    public function activities(): HasMany
     {
         return $this->hasMany(ActivityLog::class);
     }

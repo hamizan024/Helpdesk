@@ -7,12 +7,18 @@ use App\Models\Comment;
 use App\Models\Ticket;
 use App\Models\User;
 
+/**
+ * Handles comment creation and the associated activity logging.
+ */
 class CommentService
 {
     public function __construct(
-        private readonly ActivityService $activityService
+        private readonly ActivityService $activityService,
     ) {}
 
+    /**
+     * Add a comment to the ticket and log the activity.
+     */
     public function create(Ticket $ticket, User $user, string $message): Comment
     {
         $comment = Comment::create([

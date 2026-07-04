@@ -9,12 +9,20 @@ use App\Models\Ticket;
 use App\Services\CommentService;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * Handles comment creation on tickets.
+ */
 class CommentController extends Controller
 {
     public function __construct(
-        private readonly CommentService $commentService
+        private readonly CommentService $commentService,
     ) {}
 
+    /**
+     * Store a new comment on the given ticket.
+     *
+     * Access is restricted to the ticket owner, assigned technician, or admin.
+     */
     public function store(StoreCommentRequest $request, Ticket $ticket): RedirectResponse
     {
         $this->authorize('create', [Comment::class, $ticket]);

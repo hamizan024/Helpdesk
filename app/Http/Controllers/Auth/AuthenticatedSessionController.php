@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Manages login and logout for web sessions.
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**

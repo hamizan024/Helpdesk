@@ -7,6 +7,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Redirects verified users to the dashboard; prompts unverified users to verify.
+ */
 class EmailVerificationPromptController extends Controller
 {
     /**

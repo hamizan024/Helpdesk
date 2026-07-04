@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Services\DashboardService;
 use Illuminate\View\View;
 
+/**
+ * Handles the main dashboard view, scoped by the authenticated user's role.
+ */
 class DashboardController extends Controller
 {
     public function __construct(
-        private readonly DashboardService $dashboardService
+        private readonly DashboardService $dashboardService,
     ) {}
 
+    /**
+     * Display the dashboard with stats and recent tickets for the current user.
+     */
     public function index(): View
     {
         $this->authorize('view-dashboard');
@@ -20,7 +26,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', array_merge(
             $this->dashboardService->getStats($user),
-            ['recentTickets' => $this->dashboardService->getRecentTickets($user)]
+            ['recentTickets' => $this->dashboardService->getRecentTickets($user)],
         ));
     }
 }

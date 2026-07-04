@@ -7,12 +7,21 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
+/**
+ * Encapsulates ticket business logic: retrieval, creation, updates, and deletion.
+ */
 class TicketService
 {
     public function __construct(
-        private readonly ActivityService $activityService
+        private readonly ActivityService $activityService,
     ) {}
 
+    /**
+     * Return a paginated list of tickets visible to the given user.
+     *
+     * Admins see all tickets; technicians see only their assigned tickets;
+     * regular users see only their own submissions.
+     */
     public function getForUser(User $user): LengthAwarePaginator
     {
         if ($user->isAdmin()) {
@@ -32,6 +41,9 @@ class TicketService
             ->paginate(20);
     }
 
+    /**
+     * Create a new ticket submitted by the given user and log the creation event.
+     */
     public function create(User $user, array $data): Ticket
     {
         $ticket = Ticket::create(array_merge($data, [
@@ -45,6 +57,9 @@ class TicketService
         return $ticket;
     }
 
+    /**
+     * Update the ticket with new data and log assignment or status changes.
+     */
     public function update(Ticket $ticket, array $data, User $actor): Ticket
     {
         $previousAssignedTo = $ticket->assigned_to;
@@ -61,18 +76,24 @@ class TicketService
                 $ticket,
                 $actor,
                 ActivityAction::Status,
-                "{$previousStatus} -> {$data['status']}"
+                "{$previousStatus} -> {$data['status']}",
             );
         }
 
         return $ticket;
     }
 
+    /**
+     * Permanently delete the given ticket.
+     */
     public function delete(Ticket $ticket): void
     {
         $ticket->delete();
     }
 
+    /**
+     * Generate a collision-safe unique ticket number.
+     */
     private function generateTicketNumber(): string
     {
         return 'TCK-' . strtoupper(bin2hex(random_bytes(4)));

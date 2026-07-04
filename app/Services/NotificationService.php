@@ -5,23 +5,29 @@ namespace App\Services;
 use App\Models\Ticket;
 use App\Models\User;
 
+/**
+ * Stub for outbound notifications — full implementation deferred to Phase 6.
+ */
 class NotificationService
 {
-    // Notification logic will be implemented in Phase 6.
-    // Methods: notifyAssigned(), notifyStatusChanged(), notifyNewComment()
-
+    /**
+     * Notify the assigned technician when a ticket is assigned to them.
+     */
     public function notifyAssigned(Ticket $ticket, User $technician): void
     {
-        // Phase 6 implementation
     }
 
+    /**
+     * Notify relevant parties when a ticket's status changes.
+     */
     public function notifyStatusChanged(Ticket $ticket, User $actor): void
     {
-        // Phase 6 implementation
     }
 
+    /**
+     * Notify the ticket owner and assigned technician when a comment is added.
+     */
     public function notifyNewComment(Ticket $ticket, User $commenter): void
     {
-        // Phase 6 implementation
     }
 }

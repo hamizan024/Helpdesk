@@ -2,6 +2,9 @@
 
 namespace App\Enums;
 
+/**
+ * Represents the type of action recorded in a ticket's activity log.
+ */
 enum ActivityAction: string
 {
     case Create  = 'create';

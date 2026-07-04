@@ -7,6 +7,9 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Validates the request payload for updating the authenticated user's profile.
+ */
 class ProfileUpdateRequest extends FormRequest
 {
     public function authorize(): bool

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Resends the email verification notification to unverified users.
+ */
 class EmailVerificationNotificationController extends Controller
 {
     /**

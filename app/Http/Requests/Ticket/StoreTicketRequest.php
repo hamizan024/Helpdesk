@@ -4,6 +4,9 @@ namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Validates the request payload for creating a new ticket.
+ */
 class StoreTicketRequest extends FormRequest
 {
     public function authorize(): bool

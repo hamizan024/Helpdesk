@@ -7,23 +7,42 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Provides role-aware dashboard statistics and recent ticket data.
+ */
 class DashboardService
 {
+    /**
+     * Return ticket counts grouped by status and priority for the given user.
+     *
+     * @return array{
+     *     totalTickets: int,
+     *     openTickets: int,
+     *     inProgressTickets: int,
+     *     closedTickets: int,
+     *     highPriority: int,
+     *     mediumPriority: int,
+     *     lowPriority: int,
+     * }
+     */
     public function getStats(User $user): array
     {
-        $q = $this->baseQuery($user);
+        $query = $this->baseQuery($user);
 
         return [
-            'totalTickets'      => (clone $q)->count(),
-            'openTickets'       => (clone $q)->where('status', 'Open')->count(),
-            'inProgressTickets' => (clone $q)->where('status', 'In Progress')->count(),
-            'closedTickets'     => (clone $q)->where('status', 'Closed')->count(),
-            'highPriority'      => (clone $q)->where('priority', 'High')->count(),
-            'mediumPriority'    => (clone $q)->where('priority', 'Medium')->count(),
-            'lowPriority'       => (clone $q)->where('priority', 'Low')->count(),
+            'totalTickets'      => (clone $query)->count(),
+            'openTickets'       => (clone $query)->where('status', 'Open')->count(),
+            'inProgressTickets' => (clone $query)->where('status', 'In Progress')->count(),
+            'closedTickets'     => (clone $query)->where('status', 'Closed')->count(),
+            'highPriority'      => (clone $query)->where('priority', 'High')->count(),
+            'mediumPriority'    => (clone $query)->where('priority', 'Medium')->count(),
+            'lowPriority'       => (clone $query)->where('priority', 'Low')->count(),
         ];
     }
 
+    /**
+     * Return the most recent tickets visible to the given user.
+     */
     public function getRecentTickets(User $user, int $limit = 5): Collection
     {
         return $this->baseQuery($user)
@@ -33,6 +52,9 @@ class DashboardService
             ->get();
     }
 
+    /**
+     * Build a base query scoped to tickets the given user is allowed to see.
+     */
     private function baseQuery(User $user): Builder
     {
         if ($user->isAdmin()) {

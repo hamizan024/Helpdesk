@@ -4,6 +4,9 @@ namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Validates the request payload for updating an existing ticket.
+ */
 class UpdateTicketRequest extends FormRequest
 {
     public function authorize(): bool

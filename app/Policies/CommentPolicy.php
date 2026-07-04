@@ -5,10 +5,14 @@ namespace App\Policies;
 use App\Models\Ticket;
 use App\Models\User;
 
+/**
+ * Authorizes comment actions based on the user's relationship to the ticket.
+ */
 class CommentPolicy
 {
     /**
-     * Mirrors ticket visibility: admin, ticket owner, or assigned technician can comment.
+     * The ticket owner, assigned technician, or an admin can comment.
+     *
      * Called via: $this->authorize('create', [Comment::class, $ticket])
      */
     public function create(User $user, Ticket $ticket): bool
