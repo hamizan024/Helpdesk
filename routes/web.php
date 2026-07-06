@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Master\CategoryController;
+use App\Http\Controllers\Master\DepartmentController;
+use App\Http\Controllers\Master\PriorityController;
+use App\Http\Controllers\Master\StatusController;
 use App\Http\Controllers\Profile\LoginHistoryController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SessionController;
@@ -49,6 +53,14 @@ Route::middleware(['auth'])->group(function () {
     // Profile — login history
     Route::get('/profile/login-history', [LoginHistoryController::class, 'index'])
         ->name('profile.login-history');
+
+    // Master Data (admin only — enforced in MasterDataController constructor)
+    Route::prefix('master')->name('master.')->group(function () {
+        Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('categories',  CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('priorities',  PriorityController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('statuses',    StatusController::class)->only(['index', 'store', 'update', 'destroy']);
+    });
 
     // Comments
     Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])

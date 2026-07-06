@@ -60,6 +60,40 @@
                 </li>
             </ul>
 
+            @if(Auth::user()->isAdmin())
+            <span class="nav-section-label d-block mt-2">Master Data</span>
+            <ul class="list-unstyled mb-0">
+                <li class="nav-item">
+                    <a href="{{ route('master.departments.index') }}"
+                       class="nav-link {{ request()->routeIs('master.departments.*') ? 'active' : '' }}">
+                        <span class="nav-icon"><span class="material-icons-round">business</span></span>
+                        Departments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.categories.index') }}"
+                       class="nav-link {{ request()->routeIs('master.categories.*') ? 'active' : '' }}">
+                        <span class="nav-icon"><span class="material-icons-round">category</span></span>
+                        Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.priorities.index') }}"
+                       class="nav-link {{ request()->routeIs('master.priorities.*') ? 'active' : '' }}">
+                        <span class="nav-icon"><span class="material-icons-round">flag</span></span>
+                        Priorities
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('master.statuses.index') }}"
+                       class="nav-link {{ request()->routeIs('master.statuses.*') ? 'active' : '' }}">
+                        <span class="nav-icon"><span class="material-icons-round">label</span></span>
+                        Statuses
+                    </a>
+                </li>
+            </ul>
+            @endif
+
             <span class="nav-section-label d-block mt-2">Account</span>
             <ul class="list-unstyled mb-0">
                 <li class="nav-item">
