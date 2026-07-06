@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Represents an application user with role-based access control.
  *
- * @property int    $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string $role  admin|technician|user
+ * @property int         $id
+ * @property string      $name
+ * @property string      $email
+ * @property string      $password
+ * @property string      $role    admin|technician|user
+ * @property string|null $avatar  Relative path inside storage/app/public (e.g. avatars/1/photo.jpg)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -25,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'avatar',
     ];
 
     protected $hidden = [
@@ -38,6 +42,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
+    }
+
+    /**
+     * Return the public URL for this user's avatar, or null if they have none.
+     */
+    public function getAvatarUrl(): ?string
+    {
+        return $this->avatar ? Storage::url($this->avatar) : null;
     }
 
     public function isAdmin(): bool
@@ -68,5 +80,10 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function loginHistories(): HasMany
+    {
+        return $this->hasMany(LoginHistory::class);
     }
 }

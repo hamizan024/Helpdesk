@@ -64,11 +64,29 @@
             <ul class="list-unstyled mb-0">
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}"
-                       class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
                         <span class="nav-icon">
                             <span class="material-icons-round">manage_accounts</span>
                         </span>
                         Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('profile.sessions') }}"
+                       class="nav-link {{ request()->routeIs('profile.sessions') ? 'active' : '' }}">
+                        <span class="nav-icon">
+                            <span class="material-icons-round">devices</span>
+                        </span>
+                        Active Sessions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('profile.login-history') }}"
+                       class="nav-link {{ request()->routeIs('profile.login-history') ? 'active' : '' }}">
+                        <span class="nav-icon">
+                            <span class="material-icons-round">history</span>
+                        </span>
+                        Login History
                     </a>
                 </li>
                 <li class="nav-item">
@@ -118,8 +136,15 @@
                 <div class="dropdown">
                     <button class="nav-user-avatar dropdown-toggle"
                             data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            aria-expanded="false"
+                            style="{{ Auth::user()->getAvatarUrl() ? 'padding:0;overflow:hidden;' : '' }}">
+                        @if(Auth::user()->getAvatarUrl())
+                            <img src="{{ Auth::user()->getAvatarUrl() }}"
+                                 alt="{{ Auth::user()->name }}"
+                                 style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                        @else
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Profile\LoginHistoryController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Profile\SessionController;
 use App\Http\Controllers\Ticket\CommentController;
 use App\Http\Controllers\Ticket\TicketController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('tickets', TicketController::class);
 
+    // Profile — information & password
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -26,6 +29,28 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
+    // Profile — avatar
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
+        ->name('profile.avatar');
+
+    Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
+        ->name('profile.avatar.destroy');
+
+    // Profile — active sessions
+    Route::get('/profile/sessions', [SessionController::class, 'index'])
+        ->name('profile.sessions');
+
+    Route::delete('/profile/sessions/others', [SessionController::class, 'destroyOthers'])
+        ->name('profile.sessions.others');
+
+    Route::delete('/profile/sessions/{session}', [SessionController::class, 'destroy'])
+        ->name('profile.sessions.destroy');
+
+    // Profile — login history
+    Route::get('/profile/login-history', [LoginHistoryController::class, 'index'])
+        ->name('profile.login-history');
+
+    // Comments
     Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])
         ->name('comments.store');
 
