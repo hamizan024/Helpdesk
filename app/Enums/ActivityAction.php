@@ -7,8 +7,12 @@ namespace App\Enums;
  */
 enum ActivityAction: string
 {
-    case Create  = 'create';
-    case Assign  = 'assign';
-    case Status  = 'status';
-    case Comment = 'comment';
+    case Create     = 'create';
+    case Assign     = 'assign';
+    case Status     = 'status';
+    case Comment    = 'comment';
+    case Resolve    = 'resolve';
+    case Attachment = 'attachment';
+    case Watch      = 'watch';
+    case Note       = 'note';
 }

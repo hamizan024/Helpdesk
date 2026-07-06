@@ -5,9 +5,9 @@ namespace App\Http\Requests\Comment;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Validates the request payload for posting a comment or internal note on a ticket.
+ * Validates the updated message for an existing comment.
  */
-class StoreCommentRequest extends FormRequest
+class UpdateCommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,8 +17,7 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message'     => ['required', 'string', 'max:2000'],
-            'is_internal' => ['nullable', 'boolean'],
+            'message' => ['required', 'string', 'max:2000'],
         ];
     }
 

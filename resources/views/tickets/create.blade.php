@@ -19,7 +19,7 @@
                     </x-alert>
                 @endif
 
-                <form action="{{ route('tickets.store') }}" method="POST">
+                <form action="{{ route('tickets.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <x-form-input
@@ -34,12 +34,46 @@
                         :value="old('description')"
                         placeholder="Describe the issue in detail" />
 
-                    <x-form-select label="Priority" name="priority" class="mb-4">
-                        <option value="" disabled {{ old('priority') ? '' : 'selected' }}>-- Select Priority --</option>
-                        <option value="Low"    {{ old('priority') == 'Low'    ? 'selected' : '' }}>Low</option>
-                        <option value="Medium" {{ old('priority') == 'Medium' ? 'selected' : '' }}>Medium</option>
-                        <option value="High"   {{ old('priority') == 'High'   ? 'selected' : '' }}>High</option>
-                    </x-form-select>
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6">
+                            <x-form-select label="Priority" name="priority">
+                                <option value="" disabled {{ old('priority') ? '' : 'selected' }}>-- Select Priority --</option>
+                                <option value="Low"    {{ old('priority') == 'Low'    ? 'selected' : '' }}>Low</option>
+                                <option value="Medium" {{ old('priority') == 'Medium' ? 'selected' : '' }}>Medium</option>
+                                <option value="High"   {{ old('priority') == 'High'   ? 'selected' : '' }}>High</option>
+                            </x-form-select>
+                        </div>
+                        <div class="col-sm-6">
+                            <x-form-select label="Category" name="category_id">
+                                <option value="">-- No Category --</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            </x-form-select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Due Date <span class="text-muted">(optional)</span></label>
+                        <input type="date" name="due_date"
+                               value="{{ old('due_date') }}"
+                               class="form-control form-control-sm @error('due_date') is-invalid @enderror"
+                               min="{{ now()->format('Y-m-d') }}">
+                        @error('due_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" style="font-size:0.82rem;">
+                            Attachments <span class="text-muted">(optional, max 5 files, 10 MB each)</span>
+                        </label>
+                        <input type="file" name="attachments[]" multiple
+                               class="form-control form-control-sm @error('attachments.*') is-invalid @enderror"
+                               accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.txt">
+                        @error('attachments.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        @error('attachments')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
 
                     <div class="d-flex gap-2">
                         <button type="submit"

@@ -22,6 +22,8 @@ class UpdateTicketRequest extends FormRequest
             'priority'    => ['required', 'in:Low,Medium,High'],
             'status'      => ['required', 'in:Open,In Progress,Closed'],
             'assigned_to' => ['nullable', 'exists:users,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
+            'due_date'    => ['nullable', 'date'],
         ];
     }
 
@@ -31,8 +33,9 @@ class UpdateTicketRequest extends FormRequest
             'title.required'       => 'Judul tiket wajib diisi.',
             'description.required' => 'Deskripsi tiket wajib diisi.',
             'priority.in'          => 'Prioritas harus Low, Medium, atau High.',
-            'status.in'            => 'Status harus Open, In Progress, atau Closed.',
+            'status.in'            => 'Status tidak valid.',
             'assigned_to.exists'   => 'Teknisi yang dipilih tidak ditemukan.',
+            'category_id.exists'   => 'Kategori yang dipilih tidak ditemukan.',
         ];
     }
 }

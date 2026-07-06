@@ -166,6 +166,43 @@
                     <span class="material-icons-round">add_circle_outline</span>
                 </a>
 
+                <!-- Notification Bell -->
+                @php $unreadCount = Auth::user()->unreadNotifications()->count(); @endphp
+                <div class="dropdown">
+                    <button class="nav-icon-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                        <span class="material-icons-round">notifications</span>
+                        @if($unreadCount > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white"
+                                  style="background:linear-gradient(195deg,#EC407A,#D81B60);font-size:0.6rem;padding:3px 5px;min-width:16px;line-height:1;">
+                                {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                            </span>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end p-0" style="width:320px;max-height:400px;overflow-y:auto;">
+                        <div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+                            <span class="fw-semibold" style="font-size:0.82rem;color:#344767;">Notifications</span>
+                            @if($unreadCount > 0)
+                                <form action="{{ route('notifications.read-all') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link btn-sm p-0" style="font-size:0.72rem;">Mark all read</button>
+                                </form>
+                            @endif
+                        </div>
+                        @forelse(Auth::user()->notifications()->latest()->take(8)->get() as $notif)
+                            @php $data = $notif->data; @endphp
+                            <a href="{{ isset($data['ticket_id']) ? route('tickets.show', $data['ticket_id']) : '#' }}"
+                               class="dropdown-item py-2 px-3 border-bottom {{ $notif->read_at ? '' : 'fw-semibold' }}"
+                               style="white-space:normal;font-size:0.78rem;{{ $notif->read_at ? 'color:#7b809a;' : 'color:#344767;background:#fef9fa;' }}"
+                               onclick="markRead('{{ $notif->id }}', event)">
+                                <div>{{ $data['message'] ?? 'New notification' }}</div>
+                                <div class="text-muted" style="font-size:0.68rem;">{{ $notif->created_at->diffForHumans() }}</div>
+                            </a>
+                        @empty
+                            <div class="px-3 py-4 text-center text-muted" style="font-size:0.82rem;">No notifications yet.</div>
+                        @endforelse
+                    </div>
+                </div>
+
                 <!-- User Dropdown -->
                 <div class="dropdown">
                     <button class="nav-user-avatar dropdown-toggle"
@@ -235,6 +272,12 @@
         function closeSidenav() {
             document.getElementById('sidenav-main').classList.remove('open');
             document.getElementById('sidenavOverlay').classList.remove('open');
+        }
+        function markRead(id, event) {
+            fetch('/notifications/' + id + '/read', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
+            });
         }
     </script>
 

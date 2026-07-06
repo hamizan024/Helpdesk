@@ -15,17 +15,9 @@
                 <span class="input-icon">
                     <span class="material-icons-round">alternate_email</span>
                 </span>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    class="form-control {{ $errors->get('email') ? 'is-invalid' : '' }}"
-                    placeholder="nama@email.com"
-                    required
-                    autofocus
-                    autocomplete="username"
-                >
+                <input id="email" type="email" name="email" value="{{ old('email') }}"
+                    class="form-control {{ $errors->get('email') ? 'is-invalid' : '' }}" placeholder="nama@email.com"
+                    required autofocus autocomplete="username">
             </div>
             @foreach ($errors->get('email') as $msg)
                 <div class="invalid-feedback-msg">{{ $msg }}</div>
@@ -44,15 +36,9 @@
                 <span class="input-icon">
                     <span class="material-icons-round">lock</span>
                 </span>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    class="form-control {{ $errors->get('password') ? 'is-invalid' : '' }}"
-                    placeholder="••••••••"
-                    required
-                    autocomplete="current-password"
-                >
+                <input id="password" type="password" name="password"
+                    class="form-control {{ $errors->get('password') ? 'is-invalid' : '' }}" placeholder="••••••••"
+                    required autocomplete="current-password">
             </div>
             @foreach ($errors->get('password') as $msg)
                 <div class="invalid-feedback-msg">{{ $msg }}</div>

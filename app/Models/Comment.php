@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Represents a comment posted on a ticket.
+ * Represents a comment (or internal note) posted on a ticket.
  *
  * @property int    $id
  * @property int    $ticket_id
  * @property int    $user_id
  * @property string $message
+ * @property bool   $is_internal
  */
 class Comment extends Model
 {
@@ -19,7 +20,13 @@ class Comment extends Model
         'ticket_id',
         'user_id',
         'message',
+        'is_internal',
     ];
+
+    protected function casts(): array
+    {
+        return ['is_internal' => 'boolean'];
+    }
 
     public function ticket(): BelongsTo
     {
