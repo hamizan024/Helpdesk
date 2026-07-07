@@ -12,10 +12,7 @@ use Illuminate\View\View;
 
 class StatusController extends MasterDataController
 {
-    public function __construct(private readonly StatusService $statusService)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly StatusService $statusService) {}
 
     protected function service(): StatusService { return $this->statusService; }
     protected function viewPath(): string       { return 'master.statuses'; }

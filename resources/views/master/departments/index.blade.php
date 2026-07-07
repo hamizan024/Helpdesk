@@ -64,13 +64,13 @@
                         </td>
                         <td class="px-4 py-3 text-end">
                             <button type="button"
-                                    onclick="openEdit({{ $dept->id }}, @json($dept->name), @json($dept->description ?? ''), {{ $dept->is_active ? 'true' : 'false' }})"
+                                    onclick='openEdit({{ $dept->id }}, @json($dept->name), @json($dept->description ?? ""), {{ $dept->is_active ? "true" : "false" }})'
                                     class="btn btn-sm btn-outline-primary me-1"
                                     style="font-size:0.75rem;padding:3px 10px;">
                                 Edit
                             </button>
                             <button type="button"
-                                    onclick="openDelete({{ $dept->id }}, @json($dept->name))"
+                                    onclick='openDelete({{ $dept->id }}, @json($dept->name))'
                                     class="btn btn-sm btn-outline-danger"
                                     style="font-size:0.75rem;padding:3px 10px;">
                                 Delete

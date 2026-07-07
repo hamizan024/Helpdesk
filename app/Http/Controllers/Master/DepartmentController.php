@@ -12,10 +12,7 @@ use Illuminate\View\View;
 
 class DepartmentController extends MasterDataController
 {
-    public function __construct(private readonly DepartmentService $departmentService)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly DepartmentService $departmentService) {}
 
     protected function service(): DepartmentService { return $this->departmentService; }
     protected function viewPath(): string           { return 'master.departments'; }

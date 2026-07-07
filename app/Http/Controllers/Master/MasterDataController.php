@@ -16,21 +16,11 @@ use Illuminate\View\View;
  * Concrete index/store/update/destroy methods delegate here after resolving
  * their type-hinted FormRequest and route-bound model.
  *
- * Access is restricted to administrators via a constructor middleware.
+ * Access is restricted to administrators via the 'admin' route middleware
+ * applied to the master.* route group in routes/web.php.
  */
 abstract class MasterDataController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!auth()->check() || !auth()->user()->isAdmin()) {
-                abort(403, 'This section is restricted to administrators.');
-            }
-
-            return $next($request);
-        });
-    }
-
     abstract protected function service(): MasterDataService;
 
     /** Blade view directory, e.g. 'master.departments' */

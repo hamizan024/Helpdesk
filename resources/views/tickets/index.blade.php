@@ -47,7 +47,7 @@
                 </button>
 
                 {{-- Export --}}
-                <a href="{{ route('tickets.export.list', $filters) }}"
+                <a href="{{ route('tickets.export', $filters) }}"
                    class="btn btn-sm btn-outline-success" title="Export CSV">
                     <span class="material-icons-round me-1" style="font-size:0.9rem;vertical-align:middle;">download</span>
                     Export

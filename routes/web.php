@@ -84,8 +84,8 @@ Route::middleware(['auth'])->group(function () {
         return back()->with('success', 'Token berhasil dihapus.');
     })->name('profile.tokens.destroy');
 
-    // Master Data
-    Route::prefix('master')->name('master.')->group(function () {
+    // Master Data — admin only
+    Route::middleware('admin')->prefix('master')->name('master.')->group(function () {
         Route::resource('departments', DepartmentController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('categories',  CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('priorities',  PriorityController::class)->only(['index', 'store', 'update', 'destroy']);

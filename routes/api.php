@@ -23,6 +23,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/auth/token', [AuthTokenController::class, 'destroy'])->name('api.auth.token.destroy');
 
-        Route::apiResource('tickets', TicketApiController::class);
+        Route::name('api.v1.')->group(function () {
+            Route::apiResource('tickets', TicketApiController::class);
+        });
     });
 });

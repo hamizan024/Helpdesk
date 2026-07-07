@@ -12,10 +12,7 @@ use Illuminate\View\View;
 
 class PriorityController extends MasterDataController
 {
-    public function __construct(private readonly PriorityService $priorityService)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly PriorityService $priorityService) {}
 
     protected function service(): PriorityService { return $this->priorityService; }
     protected function viewPath(): string         { return 'master.priorities'; }

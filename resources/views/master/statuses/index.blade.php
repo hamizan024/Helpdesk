@@ -72,13 +72,13 @@
                         </td>
                         <td class="px-4 py-3 text-end">
                             <button type="button"
-                                    onclick="openEdit({{ $status->id }}, @json($status->name), @json($status->color), {{ $status->is_default ? 'true' : 'false' }}, {{ $status->is_active ? 'true' : 'false' }})"
+                                    onclick='openEdit({{ $status->id }}, @json($status->name), @json($status->color), {{ $status->is_default ? "true" : "false" }}, {{ $status->is_active ? "true" : "false" }})'
                                     class="btn btn-sm btn-outline-primary me-1"
                                     style="font-size:0.75rem;padding:3px 10px;">
                                 Edit
                             </button>
                             <button type="button"
-                                    onclick="openDelete({{ $status->id }}, @json($status->name))"
+                                    onclick='openDelete({{ $status->id }}, @json($status->name))'
                                     class="btn btn-sm btn-outline-danger"
                                     style="font-size:0.75rem;padding:3px 10px;">
                                 Delete

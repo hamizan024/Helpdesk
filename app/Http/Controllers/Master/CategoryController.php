@@ -13,10 +13,7 @@ use Illuminate\View\View;
 
 class CategoryController extends MasterDataController
 {
-    public function __construct(private readonly CategoryService $categoryService)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly CategoryService $categoryService) {}
 
     protected function service(): CategoryService { return $this->categoryService; }
     protected function viewPath(): string         { return 'master.categories'; }
