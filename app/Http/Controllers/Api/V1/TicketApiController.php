@@ -49,7 +49,7 @@ class TicketApiController extends Controller
         $data = $request->validate([
             'title'       => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'priority'    => ['required', 'in:Low,Medium,High'],
+            'priority'    => ['nullable', 'in:Low,Medium,High'],
             'category_id' => ['nullable', 'exists:categories,id'],
             'due_date'    => ['nullable', 'date'],
         ]);

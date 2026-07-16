@@ -34,16 +34,8 @@
                         :value="old('description')"
                         placeholder="Describe the issue in detail" />
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-sm-6">
-                            <x-form-select label="Priority" name="priority">
-                                <option value="" disabled {{ old('priority') ? '' : 'selected' }}>-- Select Priority --</option>
-                                <option value="Low"    {{ old('priority') == 'Low'    ? 'selected' : '' }}>Low</option>
-                                <option value="Medium" {{ old('priority') == 'Medium' ? 'selected' : '' }}>Medium</option>
-                                <option value="High"   {{ old('priority') == 'High'   ? 'selected' : '' }}>High</option>
-                            </x-form-select>
-                        </div>
-                        <div class="col-sm-6">
+                    <div class="row g-3 mb-1">
+                        <div class="col-sm-12">
                             <x-form-select label="Category" name="category_id">
                                 <option value="">-- No Category --</option>
                                 @foreach($categories as $cat)
@@ -54,6 +46,10 @@
                             </x-form-select>
                         </div>
                     </div>
+                    <p class="text-muted mb-4" style="font-size:0.78rem;">
+                        <span class="material-icons-round" style="font-size:0.9rem;vertical-align:middle;">info</span>
+                        Priority dan teknisi penanggung jawab ditentukan otomatis berdasarkan kategori yang dipilih.
+                    </p>
 
                     <div class="mb-4">
                         <label class="form-label fw-semibold" style="font-size:0.82rem;">Due Date <span class="text-muted">(optional)</span></label>

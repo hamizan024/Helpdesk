@@ -17,8 +17,9 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name'          => ['required', 'string', 'max:100', Rule::unique('categories', 'name')->ignore($this->route('category'))],
             'description'   => ['nullable', 'string', 'max:500'],
-            'department_id' => ['nullable', 'exists:departments,id'],
-            'is_active'     => ['boolean'],
+            'department_id'    => ['nullable', 'exists:departments,id'],
+            'default_priority' => ['nullable', 'in:Low,Medium,High'],
+            'is_active'        => ['boolean'],
         ];
     }
 }

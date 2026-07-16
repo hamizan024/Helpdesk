@@ -66,7 +66,7 @@ test.describe('Ticket Create', () => {
         await page.goto(`${BASE}/tickets/create`);
         await expect(page.locator('input[name="title"]')).toBeVisible();
         await expect(page.locator('textarea[name="description"]')).toBeVisible();
-        await expect(page.locator('select[name="priority"]')).toBeVisible();
+        await expect(page.locator('select[name="category_id"]')).toBeVisible();
         await expect(page.locator('button:has-text("Save Ticket")')).toBeVisible();
     });
 
@@ -76,28 +76,24 @@ test.describe('Ticket Create', () => {
         const title = `Playwright Test Ticket ${Date.now()}`;
         await page.fill('input[name="title"]', title);
         await page.fill('textarea[name="description"]', 'Created by Playwright automated test');
-        await page.selectOption('select[name="priority"]', 'Medium');
 
-        // Target the Save Ticket button specifically by text
+        // Priority is no longer chosen manually — it's derived from the category (or defaults to Medium)
         await page.locator('button:has-text("Save Ticket")').click();
         await expect(page).toHaveURL(/tickets\/\d+/);
         await expect(page.locator('body')).toContainText(/berhasil|success/i);
     });
 
-    test('create ticket shows validation error without priority', async ({ page }) => {
+    test('create ticket shows validation error without title', async ({ page }) => {
         await page.goto(`${BASE}/tickets/create`);
-        await page.fill('input[name="title"]', 'Test Title');
         await page.fill('textarea[name="description"]', 'Test Description');
-        // Leave priority empty — bypass HTML5 required so server validates
+        // Leave title empty — bypass HTML5 required so server validates
         await page.evaluate(() => {
-            document.querySelectorAll('select[name="priority"] option[disabled]').forEach(o => o.removeAttribute('disabled'));
-            document.querySelector('select[name="priority"]').removeAttribute('required');
-            document.querySelector('select[name="priority"]').value = '';
+            document.querySelector('input[name="title"]').removeAttribute('required');
         });
         await page.locator('button:has-text("Save Ticket")').click();
         await page.waitForLoadState('networkidle');
         // Server returns 422 and redirects back with validation errors
-        await expect(page.locator('body')).toContainText(/Prioritas|required|wajib/i);
+        await expect(page.locator('body')).toContainText(/Judul|required|wajib/i);
     });
 
 });

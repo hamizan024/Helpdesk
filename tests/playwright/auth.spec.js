@@ -45,7 +45,9 @@ test.describe('Authentication', () => {
 
     test('logout works', async ({ page }) => {
         await login(page);
-        // Logout form in sidebar
+        // Logout is inside the collapsible "Account" sidebar group — expand it first
+        await page.click('a[data-bs-target="#accountMenuSubmenu"]');
+        await page.waitForSelector('#accountMenuSubmenu.show');
         await page.locator('form[action*="logout"] button').first().click();
         await expect(page).toHaveURL(/login|\//);
     });

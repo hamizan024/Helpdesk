@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Categories')
+@section('title', 'Users')
 
 @section('content')
 
@@ -8,18 +8,22 @@
     <x-alert type="success" class="mb-3">{{ session('success') }}</x-alert>
 @endif
 
-<x-app-card title="Categories" icon="category" :badge="$items->total()" :noPad="true">
+@if(session('error'))
+    <x-alert type="danger" class="mb-3">{{ session('error') }}</x-alert>
+@endif
+
+<x-app-card title="Users" icon="manage_accounts" :badge="$items->total()" :noPad="true">
     <x-slot:actions>
         <div class="d-flex align-items-center gap-2">
-            <form method="GET" action="{{ route('master.categories.index') }}" class="d-flex">
+            <form method="GET" action="{{ route('master.users.index') }}" class="d-flex">
                 <div class="input-group input-group-sm" style="width:220px;">
                     <input type="text" name="search" value="{{ $search }}"
-                           class="form-control" placeholder="Search categories…">
+                           class="form-control" placeholder="Search users…">
                     <button class="btn btn-outline-secondary" type="submit">
                         <span class="material-icons-round" style="font-size:0.9rem;vertical-align:middle;">search</span>
                     </button>
                     @if($search)
-                        <a href="{{ route('master.categories.index') }}" class="btn btn-outline-secondary" title="Clear">
+                        <a href="{{ route('master.users.index') }}" class="btn btn-outline-secondary" title="Clear">
                             <span class="material-icons-round" style="font-size:0.9rem;vertical-align:middle;">close</span>
                         </a>
                     @endif
@@ -40,53 +44,51 @@
                 <tr>
                     <th class="px-4 py-3 border-0" style="width:3rem;color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">#</th>
                     <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Name</th>
-                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Department</th>
-                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Default Priority</th>
-                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Description</th>
-                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Status</th>
+                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Email</th>
+                    <th class="px-4 py-3 border-0" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Role</th>
                     <th class="px-4 py-3 border-0 text-end" style="color:#7b809a;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($items as $cat)
+                @forelse($items as $u)
                     <tr>
                         <td class="px-4 py-3" style="color:#7b809a;">{{ $items->firstItem() + $loop->index }}</td>
-                        <td class="px-4 py-3 fw-semibold" style="color:#344767;">{{ $cat->name }}</td>
-                        <td class="px-4 py-3" style="color:#7b809a;">
-                            {{ $cat->department?->name ?? '—' }}
-                        </td>
-                        <td class="px-4 py-3" style="color:#7b809a;">
-                            {{ $cat->default_priority ?? '—' }}
-                        </td>
-                        <td class="px-4 py-3" style="color:#7b809a;max-width:260px;">
-                            {{ $cat->description ?? '—' }}
-                        </td>
+                        <td class="px-4 py-3 fw-semibold" style="color:#344767;">{{ $u->name }}</td>
+                        <td class="px-4 py-3" style="color:#7b809a;">{{ $u->email }}</td>
                         <td class="px-4 py-3">
-                            @if($cat->is_active)
-                                <span class="badge" style="background:#e8f5e9;color:#2e7d32;font-size:0.72rem;">Active</span>
-                            @else
-                                <span class="badge" style="background:#fdecea;color:#c62828;font-size:0.72rem;">Inactive</span>
-                            @endif
+                            @php
+                                $roleColors = [
+                                    'admin'      => ['bg' => '#fdecea', 'fg' => '#c62828'],
+                                    'technician' => ['bg' => '#e3f2fd', 'fg' => '#1565c0'],
+                                    'user'       => ['bg' => '#eceff1', 'fg' => '#455a64'],
+                                ];
+                                $rc = $roleColors[$u->role] ?? $roleColors['user'];
+                            @endphp
+                            <span class="badge" style="background:{{ $rc['bg'] }};color:{{ $rc['fg'] }};font-size:0.72rem;text-transform:capitalize;">
+                                {{ $u->role }}
+                            </span>
                         </td>
                         <td class="px-4 py-3 text-end">
                             <button type="button"
-                                    onclick='openEdit({{ $cat->id }}, @json($cat->name), @json($cat->description ?? ""), {{ $cat->department_id ?? "null" }}, @json($cat->default_priority ?? ""), {{ $cat->is_active ? "true" : "false" }})'
+                                    onclick='openEdit({{ $u->id }}, @json($u->name), @json($u->email), @json($u->role))'
                                     class="btn btn-sm btn-outline-primary me-1"
                                     style="font-size:0.75rem;padding:3px 10px;">
                                 Edit
                             </button>
-                            <button type="button"
-                                    onclick='openDelete({{ $cat->id }}, @json($cat->name))'
-                                    class="btn btn-sm btn-outline-danger"
-                                    style="font-size:0.75rem;padding:3px 10px;">
-                                Delete
-                            </button>
+                            @if($u->id !== auth()->id())
+                                <button type="button"
+                                        onclick='openDelete({{ $u->id }}, @json($u->name), {{ $u->tickets_count }}, {{ $u->assigned_tickets_count }})'
+                                        class="btn btn-sm btn-outline-danger"
+                                        style="font-size:0.75rem;padding:3px 10px;">
+                                    Delete
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-4 py-4 text-center text-muted">
-                            {{ $search ? 'No categories match your search.' : 'No categories yet. Click Add to create the first one.' }}
+                        <td colspan="5" class="px-4 py-4 text-center text-muted">
+                            {{ $search ? 'No users match your search.' : 'No users yet.' }}
                         </td>
                     </tr>
                 @endforelse
@@ -113,7 +115,7 @@
                 <input type="hidden" name="_edit_id" id="editId" value="">
 
                 <div class="modal-header" style="background:linear-gradient(195deg,#42424a,#191919);border-radius:8px 8px 0 0;">
-                    <h6 class="modal-title text-white fw-bold" id="formModalTitle">Add Category</h6>
+                    <h6 class="modal-title text-white fw-bold" id="formModalTitle">Add User</h6>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -131,51 +133,39 @@
                         <input type="text" id="fieldName" name="name"
                                value="{{ old('name') }}"
                                class="form-control form-control-sm @error('name') is-invalid @enderror"
-                               placeholder="Category name" maxlength="100" required>
+                               placeholder="Full name" maxlength="100" required>
                         @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Department</label>
-                        <select id="fieldDepartment" name="department_id"
-                                class="form-select form-select-sm @error('department_id') is-invalid @enderror">
-                            <option value="">— None —</option>
-                            @foreach($departments as $dept)
-                                <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
-                                    {{ $dept->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('department_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="fieldEmail" name="email"
+                               value="{{ old('email') }}"
+                               class="form-control form-control-sm @error('email') is-invalid @enderror"
+                               placeholder="name@example.com" maxlength="255" required>
+                        @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Default Priority</label>
-                        <select id="fieldDefaultPriority" name="default_priority"
-                                class="form-select form-select-sm @error('default_priority') is-invalid @enderror">
-                            <option value="">— None —</option>
-                            <option value="Low"    {{ old('default_priority') == 'Low'    ? 'selected' : '' }}>Low</option>
-                            <option value="Medium" {{ old('default_priority') == 'Medium' ? 'selected' : '' }}>Medium</option>
-                            <option value="High"   {{ old('default_priority') == 'High'   ? 'selected' : '' }}>High</option>
+                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Role <span class="text-danger">*</span></label>
+                        <select id="fieldRole" name="role"
+                                class="form-select form-select-sm @error('role') is-invalid @enderror" required>
+                            <option value="user"       {{ old('role') == 'user'       ? 'selected' : '' }}>User</option>
+                            <option value="technician" {{ old('role') == 'technician' ? 'selected' : '' }}>Technician</option>
+                            <option value="admin"      {{ old('role') == 'admin'      ? 'selected' : '' }}>Admin</option>
                         </select>
-                        <div class="form-text" style="font-size:0.72rem;">
-                            Priority otomatis untuk tiket baru yang memakai kategori ini.
-                        </div>
-                        @error('default_priority')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold" style="font-size:0.82rem;">Description</label>
-                        <textarea id="fieldDescription" name="description" rows="3"
-                                  class="form-control form-control-sm @error('description') is-invalid @enderror"
-                                  placeholder="Optional description" maxlength="500">{{ old('description') }}</textarea>
-                        @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="fieldActive" name="is_active" value="1"
-                               {{ old('is_active', '1') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="fieldActive" style="font-size:0.82rem;">Active</label>
+                    <div class="mb-1">
+                        <label class="form-label fw-semibold" id="fieldPasswordLabel" style="font-size:0.82rem;">
+                            Password <span class="text-danger">*</span>
+                        </label>
+                        <input type="password" id="fieldPassword" name="password"
+                               class="form-control form-control-sm @error('password') is-invalid @enderror"
+                               placeholder="Min. 8 characters" autocomplete="new-password">
+                        @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="form-text" id="fieldPasswordHint" style="font-size:0.72rem;"></div>
                     </div>
                 </div>
 
@@ -205,7 +195,7 @@
                     <span class="material-icons-round d-block mb-2" style="font-size:2.5rem;color:#ef5350;">warning_amber</span>
                     <p style="font-size:0.875rem;color:#344767;">
                         Delete <strong id="deleteItemName"></strong>?<br>
-                        <span style="font-size:0.78rem;color:#7b809a;">This action cannot be undone.</span>
+                        <span style="font-size:0.78rem;color:#7b809a;" id="deleteItemWarning"></span>
                     </p>
                 </div>
                 <div class="modal-footer py-2">
@@ -221,38 +211,49 @@
 
 @section('scripts')
 <script>
-const storeUrl  = '{{ route("master.categories.store") }}';
-const updateUrl = (id) => `/master/categories/${id}`;
-const deleteUrl = (id) => `/master/categories/${id}`;
+const storeUrl  = '{{ route("master.users.store") }}';
+const updateUrl = (id) => `/master/users/${id}`;
+const deleteUrl = (id) => `/master/users/${id}`;
 
 function openCreate() {
-    document.getElementById('formModalTitle').textContent = 'Add Category';
+    document.getElementById('formModalTitle').textContent = 'Add User';
     document.getElementById('dataForm').action = storeUrl;
     document.getElementById('formMethod').value = 'POST';
     document.getElementById('editId').value = '';
     document.getElementById('fieldName').value = '';
-    document.getElementById('fieldDepartment').value = '';
-    document.getElementById('fieldDefaultPriority').value = '';
-    document.getElementById('fieldDescription').value = '';
-    document.getElementById('fieldActive').checked = true;
+    document.getElementById('fieldEmail').value = '';
+    document.getElementById('fieldRole').value = 'user';
+    document.getElementById('fieldPassword').value = '';
+    document.getElementById('fieldPassword').setAttribute('required', 'required');
+    document.getElementById('fieldPasswordLabel').innerHTML = 'Password <span class="text-danger">*</span>';
+    document.getElementById('fieldPasswordHint').textContent = '';
     new bootstrap.Modal(document.getElementById('formModal')).show();
 }
 
-function openEdit(id, name, description, departmentId, defaultPriority, isActive) {
-    document.getElementById('formModalTitle').textContent = 'Edit Category';
+function openEdit(id, name, email, role) {
+    document.getElementById('formModalTitle').textContent = 'Edit User';
     document.getElementById('dataForm').action = updateUrl(id);
     document.getElementById('formMethod').value = 'PUT';
     document.getElementById('editId').value = id;
     document.getElementById('fieldName').value = name;
-    document.getElementById('fieldDepartment').value = departmentId ?? '';
-    document.getElementById('fieldDefaultPriority').value = defaultPriority ?? '';
-    document.getElementById('fieldDescription').value = description;
-    document.getElementById('fieldActive').checked = isActive;
+    document.getElementById('fieldEmail').value = email;
+    document.getElementById('fieldRole').value = role;
+    document.getElementById('fieldPassword').value = '';
+    document.getElementById('fieldPassword').removeAttribute('required');
+    document.getElementById('fieldPasswordLabel').textContent = 'Password';
+    document.getElementById('fieldPasswordHint').textContent = 'Leave blank to keep the current password.';
     new bootstrap.Modal(document.getElementById('formModal')).show();
 }
 
-function openDelete(id, name) {
+function openDelete(id, name, ticketsCreated, ticketsAssigned) {
     document.getElementById('deleteItemName').textContent = name;
+    let warning = 'This action cannot be undone.';
+    if (ticketsCreated > 0) {
+        warning = `This will also delete ${ticketsCreated} ticket(s) created by this user. ` + warning;
+    } else if (ticketsAssigned > 0) {
+        warning = `${ticketsAssigned} ticket(s) currently assigned to this user will become unassigned. ` + warning;
+    }
+    document.getElementById('deleteItemWarning').textContent = warning;
     document.getElementById('deleteForm').action = deleteUrl(id);
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
 }
@@ -263,10 +264,8 @@ document.addEventListener('DOMContentLoaded', function () {
         openEdit(
             {{ (int) old('_edit_id', 0) }},
             @json(old('name', '')),
-            @json(old('description', '')),
-            {{ old('department_id') ? (int) old('department_id') : 'null' }},
-            @json(old('default_priority', '')),
-            {{ old('is_active') ? 'true' : 'false' }}
+            @json(old('email', '')),
+            @json(old('role', 'user'))
         );
     @else
         openCreate();

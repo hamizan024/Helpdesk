@@ -28,6 +28,9 @@ test.describe('Dashboard', () => {
     });
 
     test('admin sees Master Data links in sidebar', async ({ page }) => {
+        // Master Data is a collapsible sidebar group — expand it first
+        await page.click('a[data-bs-target="#masterDataSubmenu"]');
+        await page.waitForSelector('#masterDataSubmenu.show');
         await expect(page.locator('a[href*="master/departments"]')).toBeVisible();
         await expect(page.locator('a[href*="master/categories"]')).toBeVisible();
         await expect(page.locator('a[href*="master/priorities"]')).toBeVisible();

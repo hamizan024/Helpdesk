@@ -34,107 +34,148 @@
                 </div>
                 <span class="sidenav-brand-name">IT Helpdesk</span>
             </a>
+            <button class="sidenav-minimize-toggler" id="sidenavMinimizeToggler" type="button" aria-label="Minimize sidebar" title="Minimize sidebar">
+                <span class="material-icons-round">chevron_left</span>
+            </button>
         </div>
         <hr class="sidenav-divider">
 
         <nav>
+            @php $mainActive = request()->routeIs('dashboard') || request()->routeIs('tickets.*'); @endphp
             <span class="nav-section-label">Main</span>
             <ul class="list-unstyled mb-0">
-                <li class="nav-item">
-                    <a href="{{ route('dashboard') }}"
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <span class="nav-icon">
-                            <span class="material-icons-round">dashboard</span>
-                        </span>
-                        Dashboard
+                <li class="nav-item nav-group">
+                    <a href="#" class="nav-link nav-group-toggle {{ $mainActive ? 'active' : '' }}"
+                       data-bs-toggle="collapse" data-bs-target="#mainMenuSubmenu"
+                       aria-expanded="{{ $mainActive ? 'true' : 'false' }}" title="Main">
+                        <span class="nav-icon"><span class="material-icons-round">apps</span></span>
+                        <span class="nav-link-text">Main</span>
+                        <span class="nav-caret material-icons-round">expand_more</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('tickets.index') }}"
-                       class="nav-link {{ request()->routeIs('tickets.*') ? 'active' : '' }}">
-                        <span class="nav-icon">
-                            <span class="material-icons-round">confirmation_number</span>
-                        </span>
-                        Tickets
-                    </a>
+                    <ul class="nav-submenu collapse list-unstyled {{ $mainActive ? 'show' : '' }}" id="mainMenuSubmenu">
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard') }}"
+                               class="nav-sublink {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tickets.index') }}"
+                               class="nav-sublink {{ request()->routeIs('tickets.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Tickets
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
 
             @if(Auth::user()->isAdmin())
+            @php $masterDataActive = request()->routeIs('master.*'); @endphp
             <span class="nav-section-label d-block mt-2">Master Data</span>
             <ul class="list-unstyled mb-0">
-                <li class="nav-item">
-                    <a href="{{ route('master.departments.index') }}"
-                       class="nav-link {{ request()->routeIs('master.departments.*') ? 'active' : '' }}">
-                        <span class="nav-icon"><span class="material-icons-round">business</span></span>
-                        Departments
+                <li class="nav-item nav-group">
+                    <a href="#" class="nav-link nav-group-toggle {{ $masterDataActive ? 'active' : '' }}"
+                       data-bs-toggle="collapse" data-bs-target="#masterDataSubmenu"
+                       aria-expanded="{{ $masterDataActive ? 'true' : 'false' }}" title="Master Data">
+                        <span class="nav-icon"><span class="material-icons-round">inventory_2</span></span>
+                        <span class="nav-link-text">Master Data</span>
+                        <span class="nav-caret material-icons-round">expand_more</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('master.categories.index') }}"
-                       class="nav-link {{ request()->routeIs('master.categories.*') ? 'active' : '' }}">
-                        <span class="nav-icon"><span class="material-icons-round">category</span></span>
-                        Categories
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('master.priorities.index') }}"
-                       class="nav-link {{ request()->routeIs('master.priorities.*') ? 'active' : '' }}">
-                        <span class="nav-icon"><span class="material-icons-round">flag</span></span>
-                        Priorities
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('master.statuses.index') }}"
-                       class="nav-link {{ request()->routeIs('master.statuses.*') ? 'active' : '' }}">
-                        <span class="nav-icon"><span class="material-icons-round">label</span></span>
-                        Statuses
-                    </a>
+                    <ul class="nav-submenu collapse list-unstyled {{ $masterDataActive ? 'show' : '' }}" id="masterDataSubmenu">
+                        <li class="nav-item">
+                            <a href="{{ route('master.users.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.users.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('master.departments.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.departments.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Departments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('master.categories.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.categories.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Categories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('master.priorities.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.priorities.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Priorities
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('master.statuses.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.statuses.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Statuses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('master.technicians.index') }}"
+                               class="nav-sublink {{ request()->routeIs('master.technicians.*') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Technicians
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             @endif
 
+            @php $accountActive = request()->routeIs('profile.edit') || request()->routeIs('profile.sessions') || request()->routeIs('profile.login-history'); @endphp
             <span class="nav-section-label d-block mt-2">Account</span>
             <ul class="list-unstyled mb-0">
-                <li class="nav-item">
-                    <a href="{{ route('profile.edit') }}"
-                       class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
-                        <span class="nav-icon">
-                            <span class="material-icons-round">manage_accounts</span>
-                        </span>
-                        Profile
+                <li class="nav-item nav-group">
+                    <a href="#" class="nav-link nav-group-toggle {{ $accountActive ? 'active' : '' }}"
+                       data-bs-toggle="collapse" data-bs-target="#accountMenuSubmenu"
+                       aria-expanded="{{ $accountActive ? 'true' : 'false' }}" title="Account">
+                        <span class="nav-icon"><span class="material-icons-round">account_circle</span></span>
+                        <span class="nav-link-text">Account</span>
+                        <span class="nav-caret material-icons-round">expand_more</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('profile.sessions') }}"
-                       class="nav-link {{ request()->routeIs('profile.sessions') ? 'active' : '' }}">
-                        <span class="nav-icon">
-                            <span class="material-icons-round">devices</span>
-                        </span>
-                        Active Sessions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('profile.login-history') }}"
-                       class="nav-link {{ request()->routeIs('profile.login-history') ? 'active' : '' }}">
-                        <span class="nav-icon">
-                            <span class="material-icons-round">history</span>
-                        </span>
-                        Login History
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}" class="m-0">
-                        @csrf
-                        <button type="submit"
-                                class="nav-link w-100 text-start"
-                                style="background: none; border: none; cursor: pointer;">
-                            <span class="nav-icon">
-                                <span class="material-icons-round">logout</span>
-                            </span>
-                            Logout
-                        </button>
-                    </form>
+                    <ul class="nav-submenu collapse list-unstyled {{ $accountActive ? 'show' : '' }}" id="accountMenuSubmenu">
+                        <li class="nav-item">
+                            <a href="{{ route('profile.edit') }}"
+                               class="nav-sublink {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.sessions') }}"
+                               class="nav-sublink {{ request()->routeIs('profile.sessions') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Active Sessions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.login-history') }}"
+                               class="nav-sublink {{ request()->routeIs('profile.login-history') ? 'active' : '' }}">
+                                <span class="nav-subdot"></span>
+                                Login History
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                @csrf
+                                <button type="submit"
+                                        class="nav-sublink w-100 text-start"
+                                        style="background: none; border: none; cursor: pointer;">
+                                    <span class="nav-subdot"></span>
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -279,6 +320,65 @@
                 headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
             });
         }
+
+        // ===== Sidebar minimize =====
+        (function () {
+            var body = document.body;
+            var toggler = document.getElementById('sidenavMinimizeToggler');
+            var isMinimized = localStorage.getItem('sidenav-minimized') === '1';
+            if (isMinimized) body.classList.add('sidenav-minimized');
+
+            toggler.addEventListener('click', function () {
+                var minimized = body.classList.toggle('sidenav-minimized');
+                localStorage.setItem('sidenav-minimized', minimized ? '1' : '0');
+            });
+        })();
+
+        // ===== Nav group caret rotation (Bootstrap collapse events) =====
+        document.querySelectorAll('.nav-submenu').forEach(function (submenu) {
+            var toggle = document.querySelector('[data-bs-target="#' + submenu.id + '"]');
+            if (!toggle) return;
+            submenu.addEventListener('show.bs.collapse', function () { toggle.setAttribute('aria-expanded', 'true'); });
+            submenu.addEventListener('hide.bs.collapse', function () { toggle.setAttribute('aria-expanded', 'false'); });
+        });
+
+        // ===== Minimized-sidebar flyout submenus =====
+        // Reparents the submenu to <body> as position:fixed so it isn't clipped
+        // by the sidebar's overflow, and positions it next to the hovered icon.
+        (function () {
+            var isDesktop = function () { return window.matchMedia('(min-width: 992px)').matches; };
+
+            document.querySelectorAll('.nav-group').forEach(function (group) {
+                var submenu = group.querySelector('.nav-submenu');
+                var toggle = group.querySelector('.nav-group-toggle');
+                if (!submenu || !toggle) return;
+
+                var closeTimer = null;
+                var openFlyout = function () {
+                    clearTimeout(closeTimer);
+                    if (!document.body.classList.contains('sidenav-minimized') || !isDesktop()) return;
+                    var rect = toggle.getBoundingClientRect();
+                    submenu.style.top = rect.top + 'px';
+                    submenu.style.left = (rect.right + 10) + 'px';
+                    document.body.appendChild(submenu);
+                    submenu.classList.add('nav-flyout-active');
+                };
+                var scheduleClose = function () {
+                    clearTimeout(closeTimer);
+                    closeTimer = setTimeout(function () {
+                        submenu.classList.remove('nav-flyout-active');
+                        submenu.style.top = '';
+                        submenu.style.left = '';
+                        group.appendChild(submenu);
+                    }, 150);
+                };
+
+                group.addEventListener('mouseenter', openFlyout);
+                group.addEventListener('mouseleave', scheduleClose);
+                submenu.addEventListener('mouseenter', function () { clearTimeout(closeTimer); });
+                submenu.addEventListener('mouseleave', scheduleClose);
+            });
+        })();
     </script>
 
     @yield('scripts')

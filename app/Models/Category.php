@@ -12,13 +12,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string      $name
  * @property string|null $description
  * @property int|null    $department_id
+ * @property string|null $default_priority  Low|Medium|High — applied to tickets created under this category
  * @property bool        $is_active
  */
 class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'department_id', 'is_active'];
+    protected $fillable = ['name', 'description', 'department_id', 'default_priority', 'is_active'];
 
     protected function casts(): array
     {

@@ -77,29 +77,60 @@
             @if($ticket->attachments->count())
                 <div class="row g-2 mb-3">
                     @foreach($ticket->attachments as $att)
+                    @php $isImage = str_starts_with($att->mime_type ?? '', 'image/'); @endphp
                     <div class="col-sm-6">
-                        <div class="d-flex align-items-center gap-2 p-2 rounded-2 border" style="background:#fafafa;">
-                            <span class="material-icons-round" style="font-size:1.5rem;color:#7b809a;">{{ $att->getIconName() }}</span>
-                            <div class="flex-grow-1 overflow-hidden">
-                                <div class="fw-semibold text-truncate" style="font-size:0.8rem;color:#344767;">{{ $att->original_name }}</div>
-                                <div class="text-muted" style="font-size:0.7rem;">{{ $att->getSizeFormatted() }} · {{ $att->created_at->format('d M') }}</div>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <a href="{{ route('tickets.attachments.download', [$ticket->id, $att->id]) }}"
-                                   class="btn btn-link btn-sm p-1 text-primary" title="Download">
-                                    <span class="material-icons-round" style="font-size:1rem;">download</span>
+                        @if($isImage)
+                            <div class="rounded-2 border overflow-hidden" style="background:#fafafa;">
+                                <a href="javascript:void(0)" onclick="openAttachmentLightbox({{ json_encode($att->getUrl()) }}, {{ json_encode($att->original_name) }})">
+                                    <img src="{{ $att->getUrl() }}" alt="{{ $att->original_name }}"
+                                         style="width:100%;height:140px;object-fit:cover;display:block;cursor:zoom-in;">
                                 </a>
-                                @if($isAdmin || $att->user_id === $user->id)
-                                    <form action="{{ route('tickets.attachments.destroy', [$ticket->id, $att->id]) }}" method="POST" class="d-inline">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-link btn-sm p-1 text-danger"
-                                                onclick="return confirm('Delete this file?')">
-                                            <span class="material-icons-round" style="font-size:1rem;">delete</span>
-                                        </button>
-                                    </form>
-                                @endif
+                                <div class="d-flex align-items-center gap-2 p-2">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <div class="fw-semibold text-truncate" style="font-size:0.8rem;color:#344767;">{{ $att->original_name }}</div>
+                                        <div class="text-muted" style="font-size:0.7rem;">{{ $att->getSizeFormatted() }} · {{ $att->created_at->format('d M') }}</div>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <a href="{{ route('tickets.attachments.download', [$ticket->id, $att->id]) }}"
+                                           class="btn btn-link btn-sm p-1 text-primary" title="Download">
+                                            <span class="material-icons-round" style="font-size:1rem;">download</span>
+                                        </a>
+                                        @if($isAdmin || $att->user_id === $user->id)
+                                            <form action="{{ route('tickets.attachments.destroy', [$ticket->id, $att->id]) }}" method="POST" class="d-inline">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="btn btn-link btn-sm p-1 text-danger"
+                                                        onclick="return confirm('Delete this file?')">
+                                                    <span class="material-icons-round" style="font-size:1rem;">delete</span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="d-flex align-items-center gap-2 p-2 rounded-2 border" style="background:#fafafa;">
+                                <span class="material-icons-round" style="font-size:1.5rem;color:#7b809a;">{{ $att->getIconName() }}</span>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <div class="fw-semibold text-truncate" style="font-size:0.8rem;color:#344767;">{{ $att->original_name }}</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">{{ $att->getSizeFormatted() }} · {{ $att->created_at->format('d M') }}</div>
+                                </div>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('tickets.attachments.download', [$ticket->id, $att->id]) }}"
+                                       class="btn btn-link btn-sm p-1 text-primary" title="Download">
+                                        <span class="material-icons-round" style="font-size:1rem;">download</span>
+                                    </a>
+                                    @if($isAdmin || $att->user_id === $user->id)
+                                        <form action="{{ route('tickets.attachments.destroy', [$ticket->id, $att->id]) }}" method="POST" class="d-inline">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-link btn-sm p-1 text-danger"
+                                                    onclick="return confirm('Delete this file?')">
+                                                <span class="material-icons-round" style="font-size:1rem;">delete</span>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     @endforeach
                 </div>
@@ -560,6 +591,21 @@
     </div>
 </div>
 
+{{-- ===== Image Attachment Lightbox ===== --}}
+<div class="modal fade" id="attachmentLightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark border-0">
+            <div class="modal-header border-0 py-2">
+                <h6 class="modal-title text-white text-truncate" id="attachmentLightboxTitle"></h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <img id="attachmentLightboxImage" src="" alt="" style="max-width:100%;max-height:75vh;border-radius:6px;">
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -580,5 +626,11 @@ document.querySelectorAll('.show-tab-btn').forEach(function(btn) {
         document.getElementById(btn.dataset.target).classList.add('active');
     });
 });
+
+function openAttachmentLightbox(url, name) {
+    document.getElementById('attachmentLightboxImage').src = url;
+    document.getElementById('attachmentLightboxTitle').textContent = name;
+    new bootstrap.Modal(document.getElementById('attachmentLightboxModal')).show();
+}
 </script>
 @endsection

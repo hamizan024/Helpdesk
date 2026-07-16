@@ -5,6 +5,8 @@ use App\Http\Controllers\Master\CategoryController;
 use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Master\PriorityController;
 use App\Http\Controllers\Master\StatusController;
+use App\Http\Controllers\Master\TechnicianController;
+use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\Profile\LoginHistoryController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SessionController;
@@ -94,6 +96,11 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('priorities', PriorityController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('statuses', StatusController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        Route::get('technicians', [TechnicianController::class, 'index'])->name('technicians.index');
+        Route::patch('technicians/{technician}', [TechnicianController::class, 'update'])->name('technicians.update');
+
+        Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
     });
 
 });

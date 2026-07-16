@@ -71,10 +71,15 @@ class TicketService
     }
 
     /**
-     * Create a new ticket and log the creation event.
+     * Create a new ticket, auto-resolving priority and technician from its category, and log the creation event.
      */
     public function create(User $user, array $data): Ticket
     {
+        $category = isset($data['category_id']) ? Category::find($data['category_id']) : null;
+
+        $data['priority']    = $data['priority'] ?? $category?->default_priority ?? 'Medium';
+        $data['assigned_to'] = $this->resolveAssignee($category);
+
         $ticket = Ticket::create(array_merge($data, [
             'ticket_number' => $this->generateTicketNumber(),
             'user_id'       => $user->id,
@@ -83,7 +88,31 @@ class TicketService
 
         $this->activityService->log($ticket, $user, ActivityAction::Create, 'Ticket created');
 
+        if ($ticket->assigned_to) {
+            $this->activityService->log($ticket, $user, ActivityAction::Assign, 'Auto-assigned based on category department');
+            $this->notificationService->notifyAssigned($ticket, $ticket->technician);
+        }
+
         return $ticket;
+    }
+
+    /**
+     * Pick the technician belonging to the category's department with the fewest active tickets.
+     * Returns null when the category has no department, or the department has no technician.
+     */
+    private function resolveAssignee(?Category $category): ?int
+    {
+        if (!$category?->department_id) {
+            return null;
+        }
+
+        return User::where('role', 'technician')
+            ->whereRelation('departments', 'departments.id', $category->department_id)
+            ->withCount(['assignedTickets' => function (Builder $query): void {
+                $query->whereIn('status', ['Open', 'In Progress']);
+            }])
+            ->orderBy('assigned_tickets_count')
+            ->value('id');
     }
 
     /**

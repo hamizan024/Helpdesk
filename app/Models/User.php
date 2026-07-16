@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -81,6 +82,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function assignedTickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'assigned_to');
+    }
+
+    /**
+     * Departments this technician handles — a technician (e.g. IT support) can belong to several.
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class);
     }
 
     public function comments(): HasMany
