@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IT Helpdesk — Design System</title>
+<meta name="description" content="Visual language reference for the IT Helpdesk application — colors, type, components, and patterns.">
+<style>
+/* ── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --dk-a: #42424a;
+  --dk-b: #191919;
+  --accent:   #EC407A;
+  --accent-d: #D81B60;
+  --accent-bg:#fce4ec;
+
+  /* Surface */
+  --bg:      #f0f2f5;
+  --surface: #ffffff;
+  --border:  #e2e5ea;
+
+  /* Text */
+  --text:  #344767;
+  --muted: #7b809a;
+
+  /* Semantic */
+  --info:      #1A73E8; --info-e:     #0288D1;
+  --success:   #66BB6A; --success-e:  #43A047;
+  --warning:   #FFA726; --warning-e:  #FB8C00;
+  --danger:    #EF5350; --danger-e:   #E53935;
+  --secondary: #8C9EFF; --secondary-e:#536DFE;
+
+  /* Type scale */
+  --f-2xs: 0.625rem;
+  --f-xs:  0.6875rem;
+  --f-sm:  0.75rem;
+  --f-base:0.875rem;
+  --f-md:  1rem;
+  --f-lg:  1.125rem;
+  --f-xl:  1.375rem;
+  --f-2xl: 1.75rem;
+  --f-3xl: 2.25rem;
+
+  /* Radius */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-full: 9999px;
+
+  /* Shadow */
+  --sh-sm: 0 1px 4px rgba(0,0,0,.08);
+  --sh-md: 0 4px 16px rgba(0,0,0,.09);
+  --sh-lg: 0 8px 28px rgba(0,0,0,.12);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family: system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size: var(--f-base);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── LEFT NAV ───────────────────────────────────────────────── */
+.ds-nav{
+  width:240px;flex-shrink:0;
+  position:sticky;top:0;height:100vh;
+  overflow-y:auto;overflow-x:hidden;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  padding-bottom:40px;
+}
+.ds-nav::-webkit-scrollbar{width:3px}
+.ds-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.ds-nav-header{
+  padding:24px 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:12px;
+}
+.ds-nav-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(195deg,var(--accent),var(--accent-d));
+  box-shadow:0 4px 14px rgba(236,64,122,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;margin-bottom:10px;
+}
+.ds-nav-title{font-size:var(--f-sm);font-weight:700;color:var(--text);letter-spacing:.04em;text-transform:uppercase}
+.ds-nav-subtitle{font-size:var(--f-xs);color:var(--muted);margin-top:2px}
+
+.ds-nav-group{margin-bottom:4px}
+.ds-nav-group-label{
+  font-size:var(--f-2xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);padding:10px 20px 6px;
+  display:block;
+}
+.ds-nav-link{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 20px;font-size:var(--f-base);
+  color:var(--muted);text-decoration:none;
+  border-right:3px solid transparent;
+  transition:color .15s,background .15s;
+}
+.ds-nav-link:hover{color:var(--text);background:var(--bg)}
+.ds-nav-link.active{color:var(--accent);font-weight:600;background:var(--accent-bg);border-right-color:var(--accent)}
+.ds-nav-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:currentColor;flex-shrink:0;opacity:.5;
+}
+.ds-nav-link.active .ds-nav-dot{opacity:1}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.ds-main{flex:1;min-width:0;padding:40px 56px 96px}
+
+/* ── PAGE HEADER ────────────────────────────────────────────── */
+.ds-page-header{margin-bottom:52px}
+.ds-page-eyebrow{
+  font-size:var(--f-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);margin-bottom:8px;
+}
+.ds-page-title{
+  font-size:var(--f-3xl);font-weight:700;
+  color:var(--text);line-height:1.2;
+  text-wrap:balance;margin-bottom:12px;
+}
+.ds-page-desc{font-size:var(--f-md);color:var(--muted);max-width:52ch;line-height:1.7}
+.ds-page-meta{
+  display:flex;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap;
+}
+.ds-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:var(--r-full);
+  font-size:var(--f-xs);font-weight:600;
+  background:var(--bg);color:var(--muted);
+  border:1px solid var(--border);
+}
+.ds-chip.accent{background:var(--accent-bg);color:var(--accent-d);border-color:rgba(236,64,122,.2)}
+
+/* ── SECTION ────────────────────────────────────────────────── */
+.ds-section{margin-bottom:72px;scroll-margin-top:24px}
+
+.ds-section-head{
+  background:linear-gradient(195deg,var(--dk-a),var(--dk-b));
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+  padding:16px 24px;
+}
+.ds-section-head-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ds-section-head h2{font-size:var(--f-md);font-weight:700;color:#fff;letter-spacing:.01em}
+.ds-section-head p{font-size:var(--f-xs);color:rgba(255,255,255,.6);margin-top:3px;max-width:60ch}
+.ds-section-tag{
+  font-size:var(--f-2xs);font-weight:700;padding:3px 8px;
+  border-radius:var(--r-full);background:rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);white-space:nowrap;flex-shrink:0;
+  letter-spacing:.04em;text-transform:uppercase;margin-top:2px;
+}
+
+.ds-section-body{
+  background:var(--surface);
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  padding:32px;box-shadow:var(--sh-md);
+}
+
+/* ── SUBSECTION ─────────────────────────────────────────────── */
+.ds-sub{margin-top:36px}
+.ds-sub:first-child{margin-top:0}
+.ds-sub-label{
+  font-size:var(--f-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);margin-bottom:16px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+
+/* ── COLOR SWATCHES ─────────────────────────────────────────── */
+.ds-color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.ds-swatch{border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.ds-swatch-block{height:72px;position:relative}
+.ds-swatch-info{padding:10px 12px;background:var(--surface)}
+.ds-swatch-name{font-size:var(--f-sm);font-weight:600;color:var(--text)}
+.ds-swatch-hex{font-size:var(--f-xs);color:var(--muted);font-variant-numeric:tabular-nums;margin-top:2px}
+.ds-swatch-use{font-size:var(--f-2xs);color:var(--muted);margin-top:4px;line-height:1.4}
+
+.ds-color-pair-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ds-swatch-pair{border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.ds-swatch-pair-block{height:60px;display:flex}
+.ds-swatch-pair-half{flex:1}
+.ds-swatch-pair-info{padding:10px 14px;background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ds-swatch-pair-name{font-size:var(--f-sm);font-weight:600;color:var(--text)}
+.ds-swatch-pair-hexes{display:flex;gap:6px;flex-wrap:wrap}
+.ds-hex-tag{font-size:var(--f-2xs);font-variant-numeric:tabular-nums;padding:2px 6px;border-radius:4px;background:var(--bg);color:var(--muted);font-weight:500}
+
+/* ── TYPE SCALE ─────────────────────────────────────────────── */
+.ds-type-table{width:100%;border-collapse:collapse}
+.ds-type-table th{font-size:var(--f-xs);font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);text-align:left;padding:6px 12px 10px;border-bottom:2px solid var(--border)}
+.ds-type-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ds-type-table tr:last-child td{border-bottom:none}
+.ds-type-table .t-token{font-size:var(--f-xs);font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600;white-space:nowrap}
+.ds-type-table .t-size{font-size:var(--f-xs);font-variant-numeric:tabular-nums;color:var(--muted)}
+.ds-type-table .t-use{font-size:var(--f-xs);color:var(--muted)}
+
+/* ── SPACING TABLE ──────────────────────────────────────────── */
+.ds-space-grid{display:grid;gap:10px}
+.ds-space-row{display:flex;align-items:center;gap:16px}
+.ds-space-bar-wrap{flex:1;background:var(--bg);border-radius:4px;height:28px;display:flex;align-items:center;overflow:hidden}
+.ds-space-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-d));border-radius:4px;flex-shrink:0}
+.ds-space-label{font-size:var(--f-xs);font-weight:700;color:var(--text);white-space:nowrap;min-width:60px;font-variant-numeric:tabular-nums}
+.ds-space-val{font-size:var(--f-xs);color:var(--muted);min-width:38px;font-variant-numeric:tabular-nums}
+.ds-space-use{font-size:var(--f-xs);color:var(--muted)}
+
+/* ── COMPONENT PREVIEW ──────────────────────────────────────── */
+.ds-preview{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:28px;
+  margin-bottom:20px;
+  display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px;
+}
+.ds-preview.centered{justify-content:center;align-items:center}
+.ds-preview.block{display:block}
+.ds-preview.dark{background:linear-gradient(195deg,var(--dk-a),var(--dk-b))}
+
+/* ── CODE BLOCK ─────────────────────────────────────────────── */
+.ds-code{
+  background:var(--dk-b);color:#e2e8f0;
+  border-radius:var(--r-md);padding:18px 20px;
+  font-size:var(--f-sm);line-height:1.7;overflow-x:auto;
+  font-family:'Cascadia Code','Fira Code',ui-monospace,monospace;
+  tab-size:2;
+}
+.ds-code .kw{color:#f472b6} /* keyword / tag */
+.ds-code .at{color:#93c5fd} /* attribute */
+.ds-code .st{color:#86efac} /* string */
+.ds-code .cm{color:#6b7280} /* comment */
+.ds-code .fn{color:#fbbf24} /* function */
+
+/* ── INLINE COMPONENTS (preview replicas) ───────────────────── */
+
+/* Card replica */
+.r-card{border-radius:var(--r-lg);overflow:hidden;background:var(--surface);box-shadow:var(--sh-md);width:100%}
+.r-card-head{background:linear-gradient(195deg,var(--dk-a),var(--dk-b));padding:16px 20px}
+.r-card-head h6{font-size:var(--f-base);font-weight:700;color:#fff;margin:0}
+.r-card-head .r-card-sub{font-size:var(--f-xs);color:rgba(255,255,255,.6);margin-top:2px}
+.r-card-body{padding:20px}
+
+/* Badge replicas */
+.r-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:var(--r-full);font-size:var(--f-xs);font-weight:700;letter-spacing:.02em;color:#fff}
+.r-badge.primary   {background:linear-gradient(195deg,#EC407A,#D81B60)}
+.r-badge.info      {background:linear-gradient(195deg,#42A5F5,#1565C0)}
+.r-badge.success   {background:linear-gradient(195deg,var(--success),var(--success-e))}
+.r-badge.warning   {background:linear-gradient(195deg,var(--warning),var(--warning-e));color:#fff}
+.r-badge.danger    {background:linear-gradient(195deg,var(--danger),var(--danger-e))}
+.r-badge.secondary {background:linear-gradient(195deg,var(--secondary),var(--secondary-e))}
+
+/* Button replicas */
+.r-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:8px 20px;border-radius:var(--r-md);font-size:var(--f-sm);font-weight:600;
+  border:none;cursor:pointer;transition:opacity .15s,box-shadow .15s;
+  line-height:1;white-space:nowrap;letter-spacing:.02em;
+  font-family:inherit;
+}
+.r-btn:hover{opacity:.88}
+.r-btn.sm{padding:5px 14px;font-size:var(--f-xs)}
+.r-btn.icon-btn{padding:8px 10px}
+
+.r-btn.primary{background:linear-gradient(195deg,#EC407A,#D81B60);color:#fff;box-shadow:0 4px 12px rgba(233,30,99,.35)}
+.r-btn.info   {background:linear-gradient(195deg,#42A5F5,#1565C0);color:#fff;box-shadow:0 4px 12px rgba(26,115,232,.35)}
+.r-btn.success{background:linear-gradient(195deg,var(--success),var(--success-e));color:#fff;box-shadow:0 4px 12px rgba(67,160,71,.35)}
+.r-btn.warning{background:linear-gradient(195deg,var(--warning),var(--warning-e));color:#fff;box-shadow:0 4px 12px rgba(251,140,0,.35)}
+.r-btn.danger {background:linear-gradient(195deg,var(--danger),var(--danger-e));color:#fff;box-shadow:0 4px 12px rgba(229,57,53,.35)}
+.r-btn.dark   {background:linear-gradient(195deg,var(--dk-a),var(--dk-b));color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.r-btn.outline{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.r-btn.outline:hover{background:var(--bg);opacity:1}
+.r-btn.link-btn{background:transparent;color:var(--accent);padding:6px 0;box-shadow:none;border:none}
+
+/* Input replicas */
+.r-input-wrap{display:flex;flex-direction:column;gap:6px;width:100%}
+.r-input-label{font-size:var(--f-xs);font-weight:600;color:var(--text)}
+.r-input{
+  width:100%;padding:10px 14px;
+  border:1px solid var(--border);border-radius:var(--r-md);
+  font-size:var(--f-base);color:var(--text);
+  background:var(--surface);font-family:inherit;
+  transition:border-color .15s,box-shadow .15s;
+  outline:none;
+}
+.r-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(236,64,122,.15)}
+.r-input.error{border-color:var(--danger)}
+.r-input.error:focus{box-shadow:0 0 0 3px rgba(239,83,80,.15)}
+.r-input-hint{font-size:var(--f-xs);color:var(--muted)}
+.r-input-error{font-size:var(--f-xs);color:var(--danger)}
+.r-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237b809a' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+/* Alert replicas */
+.r-alert{
+  display:flex;gap:12px;padding:14px 16px;
+  border-radius:var(--r-md);border-left:4px solid currentColor;
+  font-size:var(--f-base);align-items:flex-start;
+}
+.r-alert.info   {background:#e3f2fd;color:#1565c0}
+.r-alert.success{background:#e8f5e9;color:#2e7d32}
+.r-alert.warning{background:#fff3e0;color:#e65100}
+.r-alert.danger {background:#ffebee;color:#c62828}
+.r-alert-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.r-alert strong{font-weight:700}
+
+/* Avatar replicas */
+.r-avatar{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0}
+.r-avatar.img img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.r-avatar.pink {background:linear-gradient(195deg,#EC407A,#D81B60)}
+.r-avatar.info {background:linear-gradient(195deg,#42A5F5,#1565C0)}
+.r-avatar.green{background:linear-gradient(195deg,#66BB6A,#43A047)}
+
+/* Stat card replicas */
+.r-stat-card{
+  background:var(--surface);border-radius:var(--r-lg);
+  padding:20px 20px 16px;position:relative;
+  box-shadow:var(--sh-md);flex:1;min-width:140px;
+}
+.r-stat-icon-wrap{
+  position:absolute;top:-12px;left:16px;
+  width:52px;height:52px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;color:#fff;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+.r-stat-card .r-stat-body{padding-top:28px;text-align:right}
+.r-stat-card .r-stat-label{font-size:var(--f-xs);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.r-stat-card .r-stat-value{font-size:var(--f-2xl);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1.2}
+.r-stat-card .r-stat-footer{font-size:var(--f-xs);color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+
+/* Timeline */
+.r-timeline{display:flex;flex-direction:column;gap:0}
+.r-tl-item{display:flex;gap:16px;position:relative}
+.r-tl-item:not(:last-child)::before{
+  content:'';position:absolute;left:18px;top:36px;bottom:-4px;
+  width:2px;background:var(--border);z-index:0;
+}
+.r-tl-icon{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;color:#fff;flex-shrink:0;z-index:1;
+  margin-top:4px;box-shadow:var(--sh-sm);
+}
+.r-tl-body{padding:4px 0 24px;flex:1}
+.r-tl-action{font-size:var(--f-base);font-weight:600;color:var(--text)}
+.r-tl-desc{font-size:var(--f-xs);color:var(--muted);margin-top:2px}
+.r-tl-time{font-size:var(--f-xs);color:var(--muted);margin-top:4px}
+
+/* Table */
+.r-table-wrap{overflow-x:auto;border-radius:var(--r-md);border:1px solid var(--border)}
+.r-table{width:100%;border-collapse:collapse}
+.r-table th{
+  font-size:var(--f-xs);font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--muted);text-align:left;
+  padding:10px 16px;border-bottom:2px solid var(--border);
+  white-space:nowrap;background:var(--bg);
+}
+.r-table td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:var(--f-base)}
+.r-table tr:last-child td{border-bottom:none}
+.r-table tr:hover td{background:#f8f9fb}
+
+/* Misc */
+.row-gap{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.col-gap{display:flex;flex-direction:column;gap:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+.prop-table{width:100%;border-collapse:collapse;margin-top:16px}
+.prop-table th{font-size:var(--f-xs);font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);text-align:left;padding:6px 12px 8px;border-bottom:2px solid var(--border)}
+.prop-table td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:var(--f-xs);vertical-align:top}
+.prop-table tr:last-child td{border-bottom:none}
+.prop-table .p-name{font-weight:600;color:var(--accent);font-family:ui-monospace,monospace}
+.prop-table .p-type{color:var(--info);font-family:ui-monospace,monospace}
+.prop-table .p-default{color:var(--muted);font-family:ui-monospace,monospace}
+
+hr.ds-divider{border:none;border-top:1px solid var(--border);margin:28px 0}
+
+@media(max-width:720px){
+  .ds-nav{display:none}
+  .ds-main{padding:24px 20px 64px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LEFT NAV ─────────────────────────────────────────────── -->
+<nav class="ds-nav" aria-label="Design system navigation">
+  <div class="ds-nav-header">
+    <div class="ds-nav-mark">🎫</div>
+    <div class="ds-nav-title">Design System</div>
+    <div class="ds-nav-subtitle">IT Helpdesk · v1.0</div>
+  </div>
+
+  <div class="ds-nav-group">
+    <span class="ds-nav-group-label">Foundation</span>
+    <a href="#overview"    class="ds-nav-link active"><span class="ds-nav-dot"></span>Overview</a>
+    <a href="#colors"      class="ds-nav-link"><span class="ds-nav-dot"></span>Colors</a>
+    <a href="#typography"  class="ds-nav-link"><span class="ds-nav-dot"></span>Typography</a>
+    <a href="#spacing"     class="ds-nav-link"><span class="ds-nav-dot"></span>Spacing</a>
+    <a href="#shadows"     class="ds-nav-link"><span class="ds-nav-dot"></span>Shadows & Radius</a>
+  </div>
+
+  <div class="ds-nav-group">
+    <span class="ds-nav-group-label">Components</span>
+    <a href="#cards"       class="ds-nav-link"><span class="ds-nav-dot"></span>Cards</a>
+    <a href="#badges"      class="ds-nav-link"><span class="ds-nav-dot"></span>Badges</a>
+    <a href="#buttons"     class="ds-nav-link"><span class="ds-nav-dot"></span>Buttons</a>
+    <a href="#forms"       class="ds-nav-link"><span class="ds-nav-dot"></span>Form Inputs</a>
+    <a href="#alerts"      class="ds-nav-link"><span class="ds-nav-dot"></span>Alerts</a>
+    <a href="#avatar"      class="ds-nav-link"><span class="ds-nav-dot"></span>Avatar</a>
+    <a href="#stat-cards"  class="ds-nav-link"><span class="ds-nav-dot"></span>Stat Cards</a>
+    <a href="#tables"      class="ds-nav-link"><span class="ds-nav-dot"></span>Tables</a>
+    <a href="#timeline"    class="ds-nav-link"><span class="ds-nav-dot"></span>Activity Timeline</a>
+  </div>
+
+  <div class="ds-nav-group">
+    <span class="ds-nav-group-label">Patterns</span>
+    <a href="#page-layout" class="ds-nav-link"><span class="ds-nav-dot"></span>Page Layout</a>
+    <a href="#blade-components" class="ds-nav-link"><span class="ds-nav-dot"></span>Blade Components</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ─────────────────────────────────────────────────── -->
+<main class="ds-main">
+
+  <!-- PAGE HEADER -->
+  <header class="ds-page-header" id="overview">
+    <div class="ds-page-eyebrow">IT Helpdesk</div>
+    <h1 class="ds-page-title">Design System</h1>
+    <p class="ds-page-desc">
+      Referensi visual untuk aplikasi IT Helpdesk. Dokumen ini mencakup semua token desain,
+      komponen Blade, dan pola layout yang digunakan secara konsisten di seluruh sistem.
+    </p>
+    <div class="ds-page-meta">
+      <span class="ds-chip accent">Material Dashboard 3</span>
+      <span class="ds-chip">Bootstrap 5</span>
+      <span class="ds-chip">Laravel 13</span>
+      <span class="ds-chip">Inter / system-ui</span>
+    </div>
+  </header>
+
+  <!-- ── COLORS ─────────────────────────────────────────────── -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Colors</h2>
+          <p>Semua warna berasal dari Material Dashboard 3. Gunakan gradient untuk elemen interaktif dan solid untuk teks.</p>
+        </div>
+        <span class="ds-section-tag">Foundation</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Brand</div>
+        <div class="ds-color-grid">
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:linear-gradient(195deg,#42424a,#191919)"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Dark Gradient</div>
+              <div class="ds-swatch-hex">#42424a → #191919</div>
+              <div class="ds-swatch-use">Sidebar, card headers, dark buttons</div>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:linear-gradient(195deg,#EC407A,#D81B60)"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Primary (Pink)</div>
+              <div class="ds-swatch-hex">#EC407A → #D81B60</div>
+              <div class="ds-swatch-use">CTA buttons, active states, brand icon</div>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:#f0f2f5"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Background</div>
+              <div class="ds-swatch-hex">#f0f2f5</div>
+              <div class="ds-swatch-use">Page background, input background</div>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:#ffffff;border-bottom:1px solid #e2e5ea"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Surface</div>
+              <div class="ds-swatch-hex">#ffffff</div>
+              <div class="ds-swatch-use">Cards, modals, dropdowns</div>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:#344767"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Text Primary</div>
+              <div class="ds-swatch-hex">#344767</div>
+              <div class="ds-swatch-use">Body text, headings, labels</div>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-block" style="background:#7b809a"></div>
+            <div class="ds-swatch-info">
+              <div class="ds-swatch-name">Text Muted</div>
+              <div class="ds-swatch-hex">#7b809a</div>
+              <div class="ds-swatch-use">Secondary text, placeholders, hints</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Semantic — Status &amp; Priority</div>
+        <div class="ds-color-pair-grid">
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#EC407A,#D81B60)"></div>
+              <div class="ds-swatch-pair-half" style="background:#D81B60"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Primary / Open</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Ticket status: Open</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#EC407A</span>
+                <span class="ds-hex-tag">#D81B60</span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#42A5F5,#1565C0)"></div>
+              <div class="ds-swatch-pair-half" style="background:#1565C0"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Info / In Progress</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Ticket status: In Progress</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#42A5F5</span>
+                <span class="ds-hex-tag">#1565C0</span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#66BB6A,#43A047)"></div>
+              <div class="ds-swatch-pair-half" style="background:#43A047"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Success / Closed</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Ticket status: Closed</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#66BB6A</span>
+                <span class="ds-hex-tag">#43A047</span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#EF5350,#E53935)"></div>
+              <div class="ds-swatch-pair-half" style="background:#E53935"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Danger / High</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Priority: High</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#EF5350</span>
+                <span class="ds-hex-tag">#E53935</span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#FFA726,#FB8C00)"></div>
+              <div class="ds-swatch-pair-half" style="background:#FB8C00"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Warning / Medium</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Priority: Medium</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#FFA726</span>
+                <span class="ds-hex-tag">#FB8C00</span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-swatch-pair">
+            <div class="ds-swatch-pair-block">
+              <div class="ds-swatch-pair-half" style="background:linear-gradient(195deg,#8C9EFF,#536DFE)"></div>
+              <div class="ds-swatch-pair-half" style="background:#536DFE"></div>
+            </div>
+            <div class="ds-swatch-pair-info">
+              <div>
+                <div class="ds-swatch-pair-name">Secondary / Low</div>
+                <div class="ds-swatch-use" style="font-size:.625rem;margin-top:2px;color:var(--muted)">Priority: Low</div>
+              </div>
+              <div class="ds-swatch-pair-hexes">
+                <span class="ds-hex-tag">#8C9EFF</span>
+                <span class="ds-hex-tag">#536DFE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TYPOGRAPHY ─────────────────────────────────────────── -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Typography</h2>
+          <p>Font utama: <strong style="color:#fff">Inter</strong> via <code style="color:rgba(255,255,255,.7);font-size:.7rem">system-ui</code> fallback. Satu font family, diferensiasi lewat weight dan size.</p>
+        </div>
+        <span class="ds-section-tag">Foundation</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Type Scale</div>
+        <div style="overflow-x:auto">
+          <table class="ds-type-table">
+            <thead>
+              <tr>
+                <th>Token</th><th>Size</th><th>Weight</th><th>Usage</th><th>Sample</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="t-token">--f-2xs</td><td class="t-size">0.625 rem / 10px</td><td class="t-use">700</td><td class="t-use">Nav group labels, micro tags</td><td style="font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em">MASTER DATA</td></tr>
+              <tr><td class="t-token">--f-xs</td><td class="t-size">0.6875 rem / 11px</td><td class="t-use">400–700</td><td class="t-use">Table header, hints, captions</td><td style="font-size:.6875rem">Submitted 3 hours ago</td></tr>
+              <tr><td class="t-token">--f-sm</td><td class="t-size">0.75 rem / 12px</td><td class="t-use">400–600</td><td class="t-use">Badge labels, code snippets</td><td style="font-size:.75rem">In Progress</td></tr>
+              <tr><td class="t-token">--f-base</td><td class="t-size">0.875 rem / 14px</td><td class="t-use">400–600</td><td class="t-use">Body text, table cells, inputs</td><td style="font-size:.875rem">Printer tidak bisa print dokumen</td></tr>
+              <tr><td class="t-token">--f-md</td><td class="t-size">1 rem / 16px</td><td class="t-use">600–700</td><td class="t-use">Card sub-headings, form labels</td><td style="font-size:1rem;font-weight:600">Detail Ticket</td></tr>
+              <tr><td class="t-token">--f-lg</td><td class="t-size">1.125 rem / 18px</td><td class="t-use">700</td><td class="t-use">Card titles (h6 equivalent)</td><td style="font-size:1.125rem;font-weight:700">Daftar Ticket</td></tr>
+              <tr><td class="t-token">--f-xl</td><td class="t-size">1.375 rem / 22px</td><td class="t-use">700</td><td class="t-use">Section headings, page sub-titles</td><td style="font-size:1.375rem;font-weight:700">Dashboard</td></tr>
+              <tr><td class="t-token">--f-2xl</td><td class="t-size">1.75 rem / 28px</td><td class="t-use">700</td><td class="t-use">Stat card values, page titles</td><td style="font-size:1.75rem;font-weight:700;font-variant-numeric:tabular-nums">42</td></tr>
+              <tr><td class="t-token">--f-3xl</td><td class="t-size">2.25 rem / 36px</td><td class="t-use">700</td><td class="t-use">Hero headings</td><td style="font-size:2.25rem;font-weight:700;line-height:1">IT Helpdesk</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Special Treatments</div>
+        <div class="col-gap">
+          <div style="font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">NAV GROUP LABEL — uppercase, ls .1em, muted</div>
+          <div style="font-size:.875rem;font-weight:600;color:var(--text)">Form label — 0.875rem 600 text-primary</div>
+          <div style="font-size:.75rem;color:var(--muted)">Hint / caption — 0.75rem 400 muted</div>
+          <div style="font-size:.875rem;font-variant-numeric:tabular-nums;color:var(--text)">Tabular numbers — 1,024 / 007 / 12:34:56</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SPACING ────────────────────────────────────────────── -->
+  <section class="ds-section" id="spacing">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Spacing</h2>
+          <p>Sistem spacing berbasis 4px. Gunakan scale ini untuk margin, padding, dan gap.</p>
+        </div>
+        <span class="ds-section-tag">Foundation</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-space-grid">
+        <div class="ds-space-row"><div class="ds-space-label">sp-1 · 2px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:2px"></div></div><div class="ds-space-use">Border radius micro</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-2 · 4px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:4px"></div></div><div class="ds-space-use">Inline icon gap</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-3 · 8px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:8px"></div></div><div class="ds-space-use">Badge padding, tight gaps</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-4 · 12px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:12px"></div></div><div class="ds-space-use">Input padding vertical, button gap</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-5 · 16px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:16px"></div></div><div class="ds-space-use">Card header padding vertical, section gap</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-6 · 20px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:20px"></div></div><div class="ds-space-use">Nav link padding horizontal</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-7 · 24px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:24px"></div></div><div class="ds-space-use">Card body padding, sidebar header</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-8 · 32px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:32px"></div></div><div class="ds-space-use">Section body padding, main content padding top</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-9 · 40px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:40px"></div></div><div class="ds-space-use">Stat card, major section separation</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-10 · 48px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:48px"></div></div><div class="ds-space-use">Page section separation</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-11 · 64px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:64px"></div></div><div class="ds-space-use">Main content horizontal padding</div></div>
+        <div class="ds-space-row"><div class="ds-space-label">sp-12 · 80px</div><div class="ds-space-bar-wrap"><div class="ds-space-bar" style="width:80px"></div></div><div class="ds-space-use">Page bottom padding</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SHADOWS & RADIUS ───────────────────────────────────── -->
+  <section class="ds-section" id="shadows">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div><h2>Shadows &amp; Border Radius</h2></div>
+        <span class="ds-section-tag">Foundation</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="grid-2">
+        <div class="ds-sub">
+          <div class="ds-sub-label">Shadows</div>
+          <div class="col-gap">
+            <div style="background:#fff;padding:16px 20px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)"><span style="font-size:.75rem;font-weight:600;color:var(--muted)">sh-sm</span><br><span style="font-size:.6875rem;color:var(--muted)">0 1px 4px rgba(0,0,0,.08)</span><br><span style="font-size:.6875rem;color:var(--muted)">nav links, chips</span></div>
+            <div style="background:#fff;padding:16px 20px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.09)"><span style="font-size:.75rem;font-weight:600;color:var(--muted)">sh-md</span><br><span style="font-size:.6875rem;color:var(--muted)">0 4px 16px rgba(0,0,0,.09)</span><br><span style="font-size:.6875rem;color:var(--muted)">cards, dropdowns</span></div>
+            <div style="background:#fff;padding:16px 20px;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.12)"><span style="font-size:.75rem;font-weight:600;color:var(--muted)">sh-lg</span><br><span style="font-size:.6875rem;color:var(--muted)">0 8px 28px rgba(0,0,0,.12)</span><br><span style="font-size:.6875rem;color:var(--muted)">modals, floating</span></div>
+          </div>
+        </div>
+        <div class="ds-sub">
+          <div class="ds-sub-label">Border Radius</div>
+          <div class="col-gap">
+            <div style="background:#fff;padding:14px 20px;border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:.75rem;font-weight:600">r-sm · 6px</span><span style="font-size:.6875rem;color:var(--muted)">Input fields, small chips</span></div>
+            <div style="background:#fff;padding:14px 20px;border:1px solid var(--border);border-radius:10px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:.75rem;font-weight:600">r-md · 10px</span><span style="font-size:.6875rem;color:var(--muted)">Buttons, badges, tables</span></div>
+            <div style="background:#fff;padding:14px 20px;border:1px solid var(--border);border-radius:12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:.75rem;font-weight:600">r-lg · 12px</span><span style="font-size:.6875rem;color:var(--muted)">Cards (app-card)</span></div>
+            <div style="background:#fff;padding:14px 20px;border:1px solid var(--border);border-radius:16px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:.75rem;font-weight:600">r-xl · 16px</span><span style="font-size:.6875rem;color:var(--muted)">Stat cards, modals</span></div>
+            <div style="background:#fff;padding:14px 20px;border:1px solid var(--border);border-radius:9999px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:.75rem;font-weight:600">r-full · 9999px</span><span style="font-size:.6875rem;color:var(--muted)">Badges, avatars, pills</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CARDS ─────────────────────────────────────────────── -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Cards — <code style="font-size:.75rem;color:rgba(255,255,255,.7)">&lt;x-app-card&gt;</code></h2>
+          <p>Komponen kartu utama dengan header dark gradient dan body putih.</p>
+        </div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Preview</div>
+        <div class="ds-preview block">
+          <div class="grid-2">
+            <div class="r-card">
+              <div class="r-card-head"><h6>Daftar Ticket</h6><div class="r-card-sub">Semua ticket yang masuk</div></div>
+              <div class="r-card-body" style="font-size:.875rem;color:var(--muted)">Card body content — padding 20px default.</div>
+            </div>
+            <div class="r-card">
+              <div class="r-card-head" style="display:flex;justify-content:space-between;align-items:center">
+                <div><h6>Detail Ticket</h6><div class="r-card-sub">TKT-0042</div></div>
+                <button class="r-btn primary sm">Edit</button>
+              </div>
+              <div class="r-card-body" style="font-size:.875rem;color:var(--muted)">Card dengan action button di header (slot <code>actions</code>).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Usage</div>
+        <pre class="ds-code"><span class="cm">{{-- Basic --}}</span>
+<span class="kw">&lt;x-app-card</span> <span class="at">title</span>=<span class="st">"Daftar Ticket"</span><span class="kw">&gt;</span>
+    Content here
+<span class="kw">&lt;/x-app-card&gt;</span>
+
+<span class="cm">{{-- Dengan action button di header --}}</span>
+<span class="kw">&lt;x-app-card</span> <span class="at">title</span>=<span class="st">"Detail Ticket"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;x-slot</span> <span class="at">name</span>=<span class="st">"actions"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;a</span> <span class="at">href</span>=<span class="st">"..."</span> <span class="at">class</span>=<span class="st">"btn btn-sm btn-white"</span><span class="kw">&gt;</span>Edit<span class="kw">&lt;/a&gt;</span>
+    <span class="kw">&lt;/x-slot&gt;</span>
+    Content here
+<span class="kw">&lt;/x-app-card&gt;</span>
+
+<span class="cm">{{-- Table card (no padding) --}}</span>
+<span class="kw">&lt;x-app-card</span> <span class="at">title</span>=<span class="st">"Tickets"</span> <span class="at">:noPad</span>=<span class="st">"true"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;table</span> <span class="at">class</span>=<span class="st">"table"</span><span class="kw">&gt;...&lt;/table&gt;</span>
+<span class="kw">&lt;/x-app-card&gt;</span></pre>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Props</div>
+        <table class="prop-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="p-name">title</td><td class="p-type">string</td><td class="p-default">''</td><td>Teks heading di header</td></tr>
+            <tr><td class="p-name">icon</td><td class="p-type">string|null</td><td class="p-default">null</td><td>Nama Material Icons Round</td></tr>
+            <tr><td class="p-name">badge</td><td class="p-type">int|null</td><td class="p-default">null</td><td>Count badge di samping title</td></tr>
+            <tr><td class="p-name">noPad</td><td class="p-type">bool</td><td class="p-default">false</td><td>true → card-body p-0 (untuk table)</td></tr>
+            <tr><td class="p-name">$actions</td><td class="p-type">slot</td><td class="p-default">—</td><td>Slot named untuk tombol/link di kanan header</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BADGES ────────────────────────────────────────────── -->
+  <section class="ds-section" id="badges">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Badges — Status &amp; Priority</h2>
+          <p>Dua komponen badge khusus: <code style="color:rgba(255,255,255,.7);font-size:.7rem">&lt;x-ticket-status&gt;</code> dan <code style="color:rgba(255,255,255,.7);font-size:.7rem">&lt;x-ticket-priority&gt;</code></p>
+        </div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Ticket Status</div>
+        <div class="ds-preview">
+          <span class="r-badge primary">Open</span>
+          <span class="r-badge info">In Progress</span>
+          <span class="r-badge success">Closed</span>
+          <span class="r-badge secondary">On Hold</span>
+        </div>
+        <pre class="ds-code"><span class="kw">&lt;x-ticket-status</span> <span class="at">:value</span>=<span class="st">"$ticket->status->name"</span> <span class="kw">/&gt;</span>
+<span class="cm">{{-- Nilai: 'Open', 'In Progress', 'Closed' --}}</span></pre>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Ticket Priority</div>
+        <div class="ds-preview">
+          <span class="r-badge danger">High</span>
+          <span class="r-badge warning">Medium</span>
+          <span class="r-badge secondary">Low</span>
+        </div>
+        <pre class="ds-code"><span class="kw">&lt;x-ticket-priority</span> <span class="at">:value</span>=<span class="st">"$ticket->priority->name"</span> <span class="kw">/&gt;</span>
+<span class="cm">{{-- Nilai: 'High', 'Medium', 'Low' --}}</span></pre>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Bootstrap Gradient Badges (langsung)</div>
+        <div class="ds-preview">
+          <span class="r-badge primary" style="font-size:.625rem;padding:3px 8px">bg-gradient-primary</span>
+          <span class="r-badge info" style="font-size:.625rem;padding:3px 8px">bg-gradient-info</span>
+          <span class="r-badge success" style="font-size:.625rem;padding:3px 8px">bg-gradient-success</span>
+          <span class="r-badge warning" style="font-size:.625rem;padding:3px 8px">bg-gradient-warning</span>
+          <span class="r-badge danger" style="font-size:.625rem;padding:3px 8px">bg-gradient-danger</span>
+          <span class="r-badge secondary" style="font-size:.625rem;padding:3px 8px">bg-gradient-secondary</span>
+        </div>
+        <pre class="ds-code"><span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge bg-gradient-primary"</span><span class="kw">&gt;</span>Primary<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge bg-gradient-success"</span><span class="kw">&gt;</span>Success<span class="kw">&lt;/span&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BUTTONS ───────────────────────────────────────────── -->
+  <section class="ds-section" id="buttons">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div><h2>Buttons</h2></div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Gradient Variants (primary actions)</div>
+        <div class="ds-preview">
+          <button class="r-btn primary">Primary</button>
+          <button class="r-btn info">Info</button>
+          <button class="r-btn success">Success</button>
+          <button class="r-btn warning">Warning</button>
+          <button class="r-btn danger">Danger</button>
+          <button class="r-btn dark">Dark</button>
+        </div>
+        <pre class="ds-code"><span class="kw">&lt;button</span> <span class="at">class</span>=<span class="st">"btn btn-sm bg-gradient-primary text-white"</span><span class="kw">&gt;</span>Simpan<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="at">class</span>=<span class="st">"btn btn-sm bg-gradient-danger text-white"</span><span class="kw">&gt;</span>Hapus<span class="kw">&lt;/button&gt;</span></pre>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Sizes</div>
+        <div class="ds-preview" style="align-items:center">
+          <button class="r-btn primary" style="padding:10px 24px;font-size:.9375rem">Large</button>
+          <button class="r-btn primary">Default</button>
+          <button class="r-btn primary sm">Small</button>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Outline &amp; Link variants</div>
+        <div class="ds-preview">
+          <button class="r-btn outline">Cancel</button>
+          <button class="r-btn link-btn">Lihat detail →</button>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Blade Components</div>
+        <pre class="ds-code"><span class="kw">&lt;x-primary-button&gt;</span>Submit<span class="kw">&lt;/x-primary-button&gt;</span>
+<span class="kw">&lt;x-secondary-button&gt;</span>Cancel<span class="kw">&lt;/x-secondary-button&gt;</span>
+<span class="kw">&lt;x-danger-button&gt;</span>Delete<span class="kw">&lt;/x-danger-button&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FORMS ─────────────────────────────────────────────── -->
+  <section class="ds-section" id="forms">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Form Inputs</h2>
+          <p>Komponen form: <code style="color:rgba(255,255,255,.7);font-size:.7rem">&lt;x-form-input&gt;</code>, <code style="color:rgba(255,255,255,.7);font-size:.7rem">&lt;x-form-select&gt;</code>, <code style="color:rgba(255,255,255,.7);font-size:.7rem">&lt;x-form-textarea&gt;</code></p>
+        </div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">States</div>
+        <div class="ds-preview block">
+          <div class="col-gap" style="max-width:480px">
+            <div class="r-input-wrap">
+              <label class="r-input-label">Judul Ticket</label>
+              <input class="r-input" type="text" placeholder="Deskripsikan masalah secara singkat" value="">
+              <span class="r-input-hint">Maksimal 255 karakter</span>
+            </div>
+            <div class="r-input-wrap">
+              <label class="r-input-label">Status</label>
+              <select class="r-input r-select">
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Closed</option>
+              </select>
+            </div>
+            <div class="r-input-wrap">
+              <label class="r-input-label">Email (error state)</label>
+              <input class="r-input error" type="email" value="bukan-email">
+              <span class="r-input-error">Format email tidak valid.</span>
+            </div>
+            <div class="r-input-wrap">
+              <label class="r-input-label">Deskripsi</label>
+              <textarea class="r-input" rows="3" placeholder="Jelaskan masalah secara detail..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Usage</div>
+        <pre class="ds-code"><span class="kw">&lt;x-form-input</span>
+    <span class="at">label</span>=<span class="st">"Judul Ticket"</span>
+    <span class="at">name</span>=<span class="st">"title"</span>
+    <span class="at">:value</span>=<span class="st">"old('title', $ticket->title)"</span>
+    <span class="at">required</span> <span class="kw">/&gt;</span>
+
+<span class="kw">&lt;x-form-select</span>
+    <span class="at">label</span>=<span class="st">"Status"</span>
+    <span class="at">name</span>=<span class="st">"status_id"</span>
+    <span class="at">:value</span>=<span class="st">"old('status_id', $ticket->status_id)"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;option</span> <span class="at">value</span>=<span class="st">""</span><span class="kw">&gt;</span>-- Pilih Status --<span class="kw">&lt;/option&gt;</span>
+    <span class="kw">@foreach</span>($statuses as $s)
+        <span class="kw">&lt;option</span> <span class="at">value</span>=<span class="st">"{{ $s->id }}"</span><span class="kw">&gt;</span>{{ $s->name }}<span class="kw">&lt;/option&gt;</span>
+    <span class="kw">@endforeach</span>
+<span class="kw">&lt;/x-form-select&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ALERTS ────────────────────────────────────────────── -->
+  <section class="ds-section" id="alerts">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div><h2>Alerts — <code style="font-size:.75rem;color:rgba(255,255,255,.7)">&lt;x-alert&gt;</code></h2></div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-preview block">
+        <div class="col-gap">
+          <div class="r-alert info"><span class="r-alert-icon">ℹ️</span><div><strong>Info:</strong> Ticket berhasil dibuat dan sudah diteruskan ke teknisi.</div></div>
+          <div class="r-alert success"><span class="r-alert-icon">✅</span><div><strong>Berhasil:</strong> Password berhasil diubah.</div></div>
+          <div class="r-alert warning"><span class="r-alert-icon">⚠️</span><div><strong>Perhatian:</strong> Ticket sudah lebih dari 3 hari tanpa respons.</div></div>
+          <div class="r-alert danger"><span class="r-alert-icon">🚫</span><div><strong>Error:</strong> Anda tidak memiliki izin untuk menghapus ticket ini.</div></div>
+        </div>
+      </div>
+      <pre class="ds-code"><span class="kw">&lt;x-alert</span> <span class="at">type</span>=<span class="st">"success"</span><span class="kw">&gt;</span>Ticket berhasil disimpan.<span class="kw">&lt;/x-alert&gt;</span>
+<span class="kw">&lt;x-alert</span> <span class="at">type</span>=<span class="st">"danger"</span> <span class="at">:dismissible</span>=<span class="st">"true"</span><span class="kw">&gt;</span>Terjadi kesalahan.<span class="kw">&lt;/x-alert&gt;</span>
+
+<span class="cm">{{-- Flash session --}}</span>
+<span class="kw">@if</span>(session('success'))
+    <span class="kw">&lt;x-alert</span> <span class="at">type</span>=<span class="st">"success"</span><span class="kw">&gt;</span>{{ session('success') }}<span class="kw">&lt;/x-alert&gt;</span>
+<span class="kw">@endif</span></pre>
+    </div>
+  </section>
+
+  <!-- ── AVATAR ────────────────────────────────────────────── -->
+  <section class="ds-section" id="avatar">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div><h2>Avatar — <code style="font-size:.75rem;color:rgba(255,255,255,.7)">&lt;x-user-avatar&gt;</code></h2></div>
+        <span class="ds-section-tag">Component</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Preview — Sizes</div>
+        <div class="ds-preview" style="align-items:center">
+          <div class="r-avatar pink" style="width:24px;height:24px;font-size:.5rem">H</div>
+          <div class="r-avatar pink" style="width:36px;height:36px;font-size:.75rem">H</div>
+          <div class="r-avatar pink" style="width:48px;height:48px;font-size:1rem">H</div>
+          <div class="r-avatar pink" style="width:64px;height:64px;font-size:1.25rem">H</div>
+          <div class="r-avatar pink" style="width:80px;height:80px;font-size:1.5rem">H</div>
+          <div class="r-avatar info" style="width:36px;height:36px;font-size:.75rem">T</div>
+          <div class="r-avatar green" style="width:36px;height:36px;font-size:.75rem">U</div>
+        </div>
+      </div>
+      <div class="ds-sub">
+        <div class="ds-sub-label">Behavior</div>
+        <p style="font-size:var(--f-sm);color:var(--muted);margin-bottom:12px">Jika user memiliki avatar, tampilkan gambar. Jika tidak, tampilkan inisial nama dengan gradient pink.</p>
+        <pre class="ds-code"><span class="kw">&lt;x-user-avatar</span> <span class="at">:user</span>=<span class="st">"$user"</span> <span class="kw">/&gt;</span>                 <span class="cm">{{-- default 36px --}}</span>
+<span class="kw">&lt;x-user-avatar</span> <span class="at">:user</span>=<span class="st">"auth()->user()"</span> <span class="at">:size</span>=<span class="st">"80"</span> <span class="kw">/&gt;</span>  <span class="cm">{{-- 80px --}}</span>
+
+<span class="cm">{{-- Avatar URL disimpan sebagai path relatif:
+     avatars/{user_id}/filename.jpg
+     Disajikan di: /storage/avatars/{id}/filename.jpg --}}</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STAT CARDS ─────────────────────────────────────────── -->
+  <section class="ds-section" id="stat-cards">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Stat Cards</h2>
+          <p>Dashboard summary cards dengan floating icon di pojok kiri atas.</p>
+        </div>
+        <span class="ds-section-tag">Pattern</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Preview</div>
+        <div class="ds-preview" style="padding-top:40px;gap:16px">
+          <div class="r-stat-card">
+            <div class="r-stat-icon-wrap" style="background:linear-gradient(195deg,#42424a,#191919)">📋</div>
+            <div class="r-stat-body">
+              <div class="r-stat-label">Total Ticket</div>
+              <div class="r-stat-value">42</div>
+            </div>
+            <div class="r-stat-footer">+3 hari ini</div>
+          </div>
+          <div class="r-stat-card">
+            <div class="r-stat-icon-wrap" style="background:linear-gradient(195deg,#EC407A,#D81B60)">🔓</div>
+            <div class="r-stat-body">
+              <div class="r-stat-label">Open</div>
+              <div class="r-stat-value">18</div>
+            </div>
+            <div class="r-stat-footer">Menunggu penanganan</div>
+          </div>
+          <div class="r-stat-card">
+            <div class="r-stat-icon-wrap" style="background:linear-gradient(195deg,#42A5F5,#1565C0)">⚙️</div>
+            <div class="r-stat-body">
+              <div class="r-stat-label">In Progress</div>
+              <div class="r-stat-value">11</div>
+            </div>
+            <div class="r-stat-footer">Sedang ditangani</div>
+          </div>
+          <div class="r-stat-card">
+            <div class="r-stat-icon-wrap" style="background:linear-gradient(195deg,#66BB6A,#43A047)">✅</div>
+            <div class="r-stat-body">
+              <div class="r-stat-label">Closed</div>
+              <div class="r-stat-value">13</div>
+            </div>
+            <div class="r-stat-footer">Selesai ditangani</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Struktur HTML</div>
+        <pre class="ds-code"><span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"card"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"card-header p-0 position-relative mt-n4 mx-3 z-index-2"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"bg-gradient-primary shadow-primary border-radius-xl py-3 pe-1"</span><span class="kw">&gt;</span>
+            <span class="cm">{{-- icon here --}}</span>
+        <span class="kw">&lt;/div&gt;</span>
+    <span class="kw">&lt;/div&gt;</span>
+    <span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"card-body"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;p</span> <span class="at">class</span>=<span class="st">"text-sm mb-0 text-uppercase font-weight-bold"</span><span class="kw">&gt;</span>Total Ticket<span class="kw">&lt;/p&gt;</span>
+        <span class="kw">&lt;h4</span> <span class="at">class</span>=<span class="st">"mb-0 font-weight-bolder"</span><span class="kw">&gt;</span>{{ $stats['total'] }}<span class="kw">&lt;/h4&gt;</span>
+    <span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TABLES ────────────────────────────────────────────── -->
+  <section class="ds-section" id="tables">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div><h2>Tables</h2></div>
+        <span class="ds-section-tag">Pattern</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Preview</div>
+        <div class="r-table-wrap">
+          <table class="r-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Judul</th><th>Status</th><th>Prioritas</th><th>Teknisi</th><th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent)">#001</td>
+                <td>Printer tidak bisa print</td>
+                <td><span class="r-badge info" style="font-size:.625rem;padding:3px 8px">In Progress</span></td>
+                <td><span class="r-badge danger" style="font-size:.625rem;padding:3px 8px">High</span></td>
+                <td style="color:var(--muted)">Budi Teknisi</td>
+                <td style="font-variant-numeric:tabular-nums;color:var(--muted)">23 Jul 2026</td>
+              </tr>
+              <tr>
+                <td style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent)">#002</td>
+                <td>Internet lambat di lantai 2</td>
+                <td><span class="r-badge primary" style="font-size:.625rem;padding:3px 8px">Open</span></td>
+                <td><span class="r-badge warning" style="font-size:.625rem;padding:3px 8px">Medium</span></td>
+                <td style="color:var(--muted)">—</td>
+                <td style="font-variant-numeric:tabular-nums;color:var(--muted)">22 Jul 2026</td>
+              </tr>
+              <tr>
+                <td style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent)">#003</td>
+                <td>Reset password akun HRIS</td>
+                <td><span class="r-badge success" style="font-size:.625rem;padding:3px 8px">Closed</span></td>
+                <td><span class="r-badge secondary" style="font-size:.625rem;padding:3px 8px">Low</span></td>
+                <td style="color:var(--muted)">Sari Dewi</td>
+                <td style="font-variant-numeric:tabular-nums;color:var(--muted)">20 Jul 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ds-sub">
+        <div class="ds-sub-label">Usage — dalam app-card</div>
+        <pre class="ds-code"><span class="kw">&lt;x-app-card</span> <span class="at">title</span>=<span class="st">"Daftar Ticket"</span> <span class="at">:noPad</span>=<span class="st">"true"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;table</span> <span class="at">class</span>=<span class="st">"table table-hover mb-0"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;thead&gt;&lt;tr&gt;</span>
+            <span class="kw">&lt;th</span> <span class="at">class</span>=<span class="st">"text-uppercase text-secondary text-xs font-weight-bolder"</span><span class="kw">&gt;</span>Judul<span class="kw">&lt;/th&gt;</span>
+            ...
+        <span class="kw">&lt;/tr&gt;&lt;/thead&gt;</span>
+        <span class="kw">&lt;tbody&gt;</span>
+            <span class="kw">@foreach</span>($tickets as $ticket)
+            <span class="kw">&lt;tr&gt;</span>
+                <span class="kw">&lt;td&gt;</span>{{ $ticket->title }}<span class="kw">&lt;/td&gt;</span>
+                <span class="kw">&lt;td&gt;&lt;x-ticket-status</span> <span class="at">:value</span>=<span class="st">"$ticket->status->name"</span> <span class="kw">/&gt;&lt;/td&gt;</span>
+            <span class="kw">&lt;/tr&gt;</span>
+            <span class="kw">@endforeach</span>
+        <span class="kw">&lt;/tbody&gt;</span>
+    <span class="kw">&lt;/table&gt;</span>
+<span class="kw">&lt;/x-app-card&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ACTIVITY TIMELINE ──────────────────────────────────── -->
+  <section class="ds-section" id="timeline">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Activity Timeline</h2>
+          <p>Digunakan di ticket show page untuk menampilkan riwayat aktivitas.</p>
+        </div>
+        <span class="ds-section-tag">Pattern</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Preview</div>
+        <div class="ds-preview block" style="max-width:520px">
+          <div class="r-timeline">
+            <div class="r-tl-item">
+              <div class="r-tl-icon" style="background:linear-gradient(195deg,#42424a,#191919)">🎫</div>
+              <div class="r-tl-body">
+                <div class="r-tl-action">Ticket dibuat</div>
+                <div class="r-tl-desc">oleh Hamizan</div>
+                <div class="r-tl-time">23 Jul 2026 · 09:15</div>
+              </div>
+            </div>
+            <div class="r-tl-item">
+              <div class="r-tl-icon" style="background:linear-gradient(195deg,#42A5F5,#1565C0)">👤</div>
+              <div class="r-tl-body">
+                <div class="r-tl-action">Ditetapkan ke teknisi</div>
+                <div class="r-tl-desc">Budi Teknisi ditugaskan oleh Admin</div>
+                <div class="r-tl-time">23 Jul 2026 · 09:22</div>
+              </div>
+            </div>
+            <div class="r-tl-item">
+              <div class="r-tl-icon" style="background:linear-gradient(195deg,#FFA726,#FB8C00)">🔄</div>
+              <div class="r-tl-body">
+                <div class="r-tl-action">Status diubah</div>
+                <div class="r-tl-desc">Open → In Progress oleh Budi Teknisi</div>
+                <div class="r-tl-time">23 Jul 2026 · 10:05</div>
+              </div>
+            </div>
+            <div class="r-tl-item">
+              <div class="r-tl-icon" style="background:linear-gradient(195deg,#66BB6A,#43A047)">✅</div>
+              <div class="r-tl-body">
+                <div class="r-tl-action">Ticket diselesaikan</div>
+                <div class="r-tl-desc">Ditandai Closed oleh Budi Teknisi</div>
+                <div class="r-tl-time">23 Jul 2026 · 14:30</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-sub">
+        <div class="ds-sub-label">Action → Icon Color mapping</div>
+        <div class="row-gap">
+          <div style="display:flex;align-items:center;gap:8px"><div class="r-tl-icon" style="background:linear-gradient(195deg,#42424a,#191919);width:28px;height:28px;font-size:.7rem">🎫</div><span style="font-size:var(--f-xs);color:var(--muted)">create</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div class="r-tl-icon" style="background:linear-gradient(195deg,#42A5F5,#1565C0);width:28px;height:28px;font-size:.7rem">👤</div><span style="font-size:var(--f-xs);color:var(--muted)">assign</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div class="r-tl-icon" style="background:linear-gradient(195deg,#FFA726,#FB8C00);width:28px;height:28px;font-size:.7rem">🔄</div><span style="font-size:var(--f-xs);color:var(--muted)">status_change</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div class="r-tl-icon" style="background:linear-gradient(195deg,#66BB6A,#43A047);width:28px;height:28px;font-size:.7rem">💬</div><span style="font-size:var(--f-xs);color:var(--muted)">comment</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><div class="r-tl-icon" style="background:linear-gradient(195deg,#EC407A,#D81B60);width:28px;height:28px;font-size:.7rem">✅</div><span style="font-size:var(--f-xs);color:var(--muted)">resolve / close</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PAGE LAYOUT ───────────────────────────────────────── -->
+  <section class="ds-section" id="page-layout">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Page Layout</h2>
+          <p>Struktur layout utama app: sidebar + main content.</p>
+        </div>
+        <span class="ds-section-tag">Pattern</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="ds-sub">
+        <div class="ds-sub-label">Layout Diagram</div>
+        <div style="border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;display:flex;height:200px">
+          <div style="width:100px;background:linear-gradient(195deg,#42424a,#191919);display:flex;flex-direction:column;padding:10px 8px;gap:6px;flex-shrink:0">
+            <div style="width:60%;height:20px;background:rgba(255,255,255,.2);border-radius:4px"></div>
+            <div style="height:1px;background:rgba(255,255,255,.1);margin:4px 0"></div>
+            <div style="height:8px;background:rgba(255,255,255,.15);border-radius:3px;width:90%"></div>
+            <div style="height:8px;background:rgba(236,64,122,.5);border-radius:3px;width:80%"></div>
+            <div style="height:8px;background:rgba(255,255,255,.15);border-radius:3px;width:70%"></div>
+            <div style="height:1px;background:rgba(255,255,255,.1);margin:4px 0"></div>
+            <div style="height:8px;background:rgba(255,255,255,.15);border-radius:3px;width:85%"></div>
+            <div style="height:8px;background:rgba(255,255,255,.15);border-radius:3px;width:65%"></div>
+          </div>
+          <div style="flex:1;background:var(--bg);display:flex;flex-direction:column">
+            <div style="height:36px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:8px;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="width:10px;height:10px;background:var(--border);border-radius:2px"></div>
+                <div style="height:6px;width:60px;background:var(--border);border-radius:3px"></div>
+              </div>
+              <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(195deg,#EC407A,#D81B60)"></div>
+            </div>
+            <div style="flex:1;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:start">
+              <div style="height:40px;background:var(--surface);border-radius:6px;box-shadow:var(--sh-sm)"></div>
+              <div style="height:40px;background:var(--surface);border-radius:6px;box-shadow:var(--sh-sm)"></div>
+              <div style="height:40px;background:var(--surface);border-radius:6px;box-shadow:var(--sh-sm)"></div>
+              <div style="height:60px;background:var(--surface);border-radius:6px;box-shadow:var(--sh-sm);grid-column:span 3"></div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:var(--f-xs);color:var(--muted);margin-top:8px">Sidebar lebar: 260px fixed. Main content: flex-grow 1, padding-left 260px. Navbar: sticky top, height 60px.</p>
+      </div>
+
+      <div class="ds-sub">
+        <div class="ds-sub-label">Struktur Blade</div>
+        <pre class="ds-code"><span class="kw">@extends</span>(<span class="st">'layouts.app'</span>)
+
+<span class="kw">@section</span>(<span class="st">'title'</span>, <span class="st">'Judul Halaman'</span>)
+
+<span class="kw">@section</span>(<span class="st">'content'</span>)
+<span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"row"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;div</span> <span class="at">class</span>=<span class="st">"col-12"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;x-app-card</span> <span class="at">title</span>=<span class="st">"Judul Section"</span><span class="kw">&gt;</span>
+            ...
+        <span class="kw">&lt;/x-app-card&gt;</span>
+    <span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/div&gt;</span>
+<span class="kw">@endsection</span>
+
+<span class="kw">@section</span>(<span class="st">'scripts'</span>)
+<span class="kw">&lt;script&gt;</span>
+    <span class="cm">// page-specific JS here</span>
+<span class="kw">&lt;/script&gt;</span>
+<span class="kw">@endsection</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BLADE COMPONENTS REFERENCE ───────────────────────── -->
+  <section class="ds-section" id="blade-components">
+    <div class="ds-section-head">
+      <div class="ds-section-head-row">
+        <div>
+          <h2>Blade Components — Referensi Lengkap</h2>
+          <p>Semua komponen di <code style="color:rgba(255,255,255,.7);font-size:.7rem">resources/views/components/</code></p>
+        </div>
+        <span class="ds-section-tag">Reference</span>
+      </div>
+    </div>
+    <div class="ds-section-body">
+      <div class="r-table-wrap">
+        <table class="r-table">
+          <thead>
+            <tr><th>Komponen</th><th>Tag</th><th>Props Utama</th><th>Keterangan</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:600">app-card</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-app-card&gt;</td><td style="font-size:.75rem;color:var(--muted)">title, icon, badge, noPad</td><td style="font-size:.75rem;color:var(--muted)">Kartu dengan dark gradient header</td></tr>
+            <tr><td style="font-weight:600">ticket-status</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-ticket-status&gt;</td><td style="font-size:.75rem;color:var(--muted)">:value</td><td style="font-size:.75rem;color:var(--muted)">Badge status ticket</td></tr>
+            <tr><td style="font-weight:600">ticket-priority</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-ticket-priority&gt;</td><td style="font-size:.75rem;color:var(--muted)">:value</td><td style="font-size:.75rem;color:var(--muted)">Badge prioritas ticket</td></tr>
+            <tr><td style="font-weight:600">user-avatar</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-user-avatar&gt;</td><td style="font-size:.75rem;color:var(--muted)">:user, :size (default 36)</td><td style="font-size:.75rem;color:var(--muted)">Photo atau inisial dengan gradient</td></tr>
+            <tr><td style="font-weight:600">form-input</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-form-input&gt;</td><td style="font-size:.75rem;color:var(--muted)">label, name, type, value, required</td><td style="font-size:.75rem;color:var(--muted)">Input teks dengan label + error</td></tr>
+            <tr><td style="font-weight:600">form-select</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-form-select&gt;</td><td style="font-size:.75rem;color:var(--muted)">label, name, value</td><td style="font-size:.75rem;color:var(--muted)">Select dropdown dengan slot option</td></tr>
+            <tr><td style="font-weight:600">form-textarea</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-form-textarea&gt;</td><td style="font-size:.75rem;color:var(--muted)">label, name, rows, value</td><td style="font-size:.75rem;color:var(--muted)">Textarea dengan label</td></tr>
+            <tr><td style="font-weight:600">alert</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-alert&gt;</td><td style="font-size:.75rem;color:var(--muted)">type, dismissible</td><td style="font-size:.75rem;color:var(--muted)">Info / success / warning / danger</td></tr>
+            <tr><td style="font-weight:600">modal</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-modal&gt;</td><td style="font-size:.75rem;color:var(--muted)">id, title</td><td style="font-size:.75rem;color:var(--muted)">Bootstrap modal wrapper</td></tr>
+            <tr><td style="font-weight:600">detail-field</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-detail-field&gt;</td><td style="font-size:.75rem;color:var(--muted)">label, value</td><td style="font-size:.75rem;color:var(--muted)">Key-value row di halaman detail</td></tr>
+            <tr><td style="font-weight:600">pagination</td><td style="font-family:monospace;font-size:.75rem;color:var(--accent)">&lt;x-pagination&gt;</td><td style="font-size:.75rem;color:var(--muted)">:paginator</td><td style="font-size:.75rem;color:var(--muted)">Pagination links Bootstrap 5</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Active nav link on scroll
+const links = document.querySelectorAll('.ds-nav-link');
+const sections = document.querySelectorAll('.ds-section, .ds-page-header');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      links.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => s.id && obs.observe(s));
+</script>
+</body>
+</html>
