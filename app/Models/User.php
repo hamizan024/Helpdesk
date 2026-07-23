@@ -51,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getAvatarUrl(): ?string
     {
-        return $this->avatar ? Storage::url($this->avatar) : null;
+        return $this->avatar ? '/storage/' . $this->avatar : null;
     }
 
     public function isAdmin(): bool
